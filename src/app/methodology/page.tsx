@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ComponentDot } from "@/components/ScoreBar";
 import { getMeta } from "@/lib/data";
 import { fmtRaw } from "@/lib/format";
+import { ROLE_LABEL } from "@/lib/links";
 
 export const metadata = { title: "Methodology · Country Standard Index" };
 
@@ -144,6 +145,12 @@ export default function MethodologyPage() {
       <section className="space-y-2 text-sm">
         <h2 className="font-medium text-lg">5. Indicators and sources</h2>
         <p className="text-secondary">
+          Every series links to two places: <em>downloaded from</em> is the exact URL our pipeline fetched (the closest point to the number on this
+          site), and <em>built from</em> is the chain of organisations behind it. Where a value is assembled from several sources, each entry says what
+          that source contributes; the indicator page also shows the data provider&apos;s own source statement verbatim, and every country row has a
+          link to the series filtered to that country.
+        </p>
+        <p className="text-secondary">
           Type: <em>direct</em> measures the thing itself; <em>proxy</em> stands in for something not measured consistently across countries. Source
           type: <em>statistical</em> = counts, registers or household surveys compiled by statistical agencies; <em>modelled</em> = statistical estimates
           (ILO, UN IGME, GBD) that fill gaps between reported years; <em>expert</em> = assessments aggregated from expert and survey sources (WGI, V-Dem).
@@ -160,7 +167,8 @@ export default function MethodologyPage() {
                 <th>Countries</th>
                 <th>Carried</th>
                 <th>Max carry</th>
-                <th>Source</th>
+                <th>Downloaded from</th>
+                <th>Built from</th>
               </tr>
             </thead>
             <tbody>
@@ -187,11 +195,29 @@ export default function MethodologyPage() {
                   <td className="tnum">{i.stats.countriesWithData}</td>
                   <td className="tnum">{Math.round((100 * i.stats.carriedCountryYears) / (i.stats.carriedCountryYears + i.stats.observedCountryYears))}%</td>
                   <td className="tnum">{i.maxCarry} y</td>
-                  <td className="text-xs">
-                    <a href={i.sourceUrl} target="_blank" rel="noreferrer" className="underline">
-                      {i.source}
+                  <td className="text-xs" style={{ minWidth: 160 }}>
+                    <a href={i.pulledFrom.url} target="_blank" rel="noreferrer" className="underline">
+                      {i.pulledFrom.name}
                     </a>
-                    {i.stats.sourceLastUpdated ? <div className="text-muted">updated {i.stats.sourceLastUpdated}</div> : null}
+                    <div className="text-muted">
+                      <a href={i.pulledFrom.page} target="_blank" rel="noreferrer" className="underline">
+                        series page
+                      </a>
+                      {i.stats.sourceLastUpdated ? ` · updated ${i.stats.sourceLastUpdated}` : ""}
+                    </div>
+                  </td>
+                  <td className="text-xs" style={{ minWidth: 260 }}>
+                    <ul className={i.sources.length > 1 ? "list-disc ml-3 space-y-0.5" : ""}>
+                      {i.sources.map((src) => (
+                        <li key={src.url + src.name}>
+                          <a href={src.url} target="_blank" rel="noreferrer" className="underline">
+                            {src.name}
+                          </a>{" "}
+                          <span className="text-muted">({ROLE_LABEL[src.role]})</span>
+                          {i.sources.length > 1 ? <span className="text-muted"> — {src.contribution}</span> : null}
+                        </li>
+                      ))}
+                    </ul>
                   </td>
                 </tr>
               ))}
@@ -199,7 +225,17 @@ export default function MethodologyPage() {
           </table>
         </div>
         <p className="text-xs text-muted">
-          Not scored but shown for cross-checking: {meta.context.map((c) => `${c.name} (${c.source})`).join("; ")}.
+          Not scored but shown for cross-checking:{" "}
+          {meta.context.map((c, i) => (
+            <span key={c.id}>
+              {i > 0 ? "; " : ""}
+              <a href={c.url} target="_blank" rel="noreferrer" className="underline">
+                {c.name}
+              </a>{" "}
+              ({c.source})
+            </span>
+          ))}
+          .
         </p>
       </section>
 

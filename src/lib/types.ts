@@ -43,12 +43,30 @@ export interface Indicator {
   maxCarry: number;
   kind: Kind;
   sourceType: SourceType;
-  source: string;
-  sourceUrl: string;
   measures: string;
   note?: string;
+  sources: SourceRef[];
+  pulledFrom: PulledFrom;
+  official: { sourceOrganization: string | null; sourceNote: string | null };
   goalposts: Goalposts;
   stats: IndicatorStats;
+}
+
+export interface SourceRef {
+  name: string;
+  url: string;
+  role: "compiler" | "primary" | "republisher";
+  contribution: string;
+}
+
+export interface PulledFrom {
+  kind: "worldbank" | "file";
+  name: string;
+  /** exact URL the pipeline downloaded */
+  url: string;
+  /** human-readable landing page for the series */
+  page: string;
+  metadataUrl: string | null;
 }
 
 export interface Meta {
@@ -60,7 +78,7 @@ export interface Meta {
   minCoverage: number;
   components: Component[];
   indicators: Indicator[];
-  context: { id: string; name: string; source: string }[];
+  context: { id: string; name: string; source: string; url: string }[];
 }
 
 export type Series = (number | null)[];

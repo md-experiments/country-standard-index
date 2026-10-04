@@ -55,8 +55,8 @@ for (const r of hdr.slice(1)) {
     if (h !== undefined && h !== "") (hdi[iso] ??= {})[y] = +h;
   }
 }
-await write("UNDP_MYS", "Mean years of schooling (years)", mys, { sourceUrl: HDR_URL, sourceLastUpdated: "HDR 2025" });
-await write("UNDP_HDI", "Human Development Index (value)", hdi, { sourceUrl: HDR_URL, sourceLastUpdated: "HDR 2025" });
+await write("UNDP_MYS", "Mean years of schooling (years)", mys, { fetchUrl: HDR_URL, sourceLastUpdated: "HDR 2025", metadata: { sourceOrganization: "UNDP Human Development Report Office, HDR 2025 composite indices time series, column mys_YYYY", sourceNote: "Average number of completed years of education of a country's population aged 25 years and older, excluding years spent repeating individual grades." } });
+await write("UNDP_HDI", "Human Development Index (value)", hdi, { fetchUrl: HDR_URL, sourceLastUpdated: "HDR 2025", metadata: { sourceOrganization: "UNDP Human Development Report Office, HDR 2025 composite indices time series, column hdi_YYYY", sourceNote: "Composite of life expectancy, expected and mean years of schooling, and GNI per capita." } });
 
 // ---- V-Dem freedom of expression (OWID grapher export) ----
 const VDEM_URL = "https://ourworldindata.org/grapher/freedom-of-expression-index.csv?v=1&csvType=full&useColumnShortNames=true";
@@ -69,4 +69,4 @@ for (const r of vd.slice(1)) {
   if (!valid.has(iso) || y < YEAR_START || y > YEAR_END || v === "") continue;
   (fx[iso] ??= {})[y] = +v;
 }
-await write("VDEM_FREEXPR", "Freedom of expression and alternative sources of information index (V-Dem)", fx, { sourceUrl: VDEM_URL, sourceLastUpdated: "V-Dem v15 via OWID" });
+await write("VDEM_FREEXPR", "Freedom of expression and alternative sources of information index (V-Dem)", fx, { fetchUrl: VDEM_URL, sourceLastUpdated: "V-Dem v15 via OWID", metadata: { sourceOrganization: "V-Dem Institute, V-Dem Dataset v15, variable v2x_freexp_altinf (best estimate), republished by Our World in Data", sourceNote: "Extent to which government respects press and media freedom, the freedom of ordinary people to discuss political matters at home and in the public sphere, and the freedom of academic and cultural expression. Scale 0 (low) to 1 (high)." } });

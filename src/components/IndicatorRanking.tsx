@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { MultiCountryHistory } from "@/components/MultiCountryHistory";
 import { fmtRaw } from "@/lib/format";
+import { countrySourceLinks } from "@/lib/links";
 import type { Indicator, IndicatorFile, Summary } from "@/lib/types";
 
 export function IndicatorRanking({ indicator, file, summary }: { indicator: Indicator; file: IndicatorFile; summary: Summary }) {
@@ -76,6 +77,7 @@ export function IndicatorRanking({ indicator, file, summary }: { indicator: Indi
                 <th>Value</th>
                 <th>Observed</th>
                 <th>Score</th>
+                <th>Verify</th>
               </tr>
             </thead>
             <tbody>
@@ -90,6 +92,13 @@ export function IndicatorRanking({ indicator, file, summary }: { indicator: Indi
                   <td>{fmtRaw(r.raw)}</td>
                   <td className="text-xs">{r.obs === year ? <span className="text-secondary">{r.obs}</span> : <span className="badge badge-carried">carried from {r.obs}</span>}</td>
                   <td className="font-semibold">{Math.round(r.score)}</td>
+                  <td className="text-xs">
+                    {nameOf[r.iso] && (
+                      <a href={countrySourceLinks(indicator, nameOf[r.iso])[0].url} target="_blank" rel="noreferrer" className="underline text-secondary" title={countrySourceLinks(indicator, nameOf[r.iso])[0].label}>
+                        source ↗
+                      </a>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

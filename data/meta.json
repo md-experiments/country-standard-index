@@ -149,8 +149,32 @@
    "maxCarry": 3,
    "kind": "official",
    "sourceType": "statistical",
-   "source": "World Bank, World Development Indicators (national accounts, ICP)",
-   "sourceUrl": "https://data.worldbank.org/indicator/NY.GNP.PCAP.PP.KD",
+   "sources": [
+    {
+     "name": "World Bank national accounts data (WDI)",
+     "url": "https://data.worldbank.org/indicator/NY.GNP.PCAP.PP.KD",
+     "role": "compiler",
+     "contribution": "Divides each country's GNI by its population and converts it to constant 2021 international dollars using the PPPs below; fills gaps with World Bank staff estimates."
+    },
+    {
+     "name": "International Comparison Program (ICP), World Bank",
+     "url": "https://www.worldbank.org/en/programs/icp/data",
+     "role": "primary",
+     "contribution": "Supplies the purchasing power parities (PPPs) used for the conversion for all non-OECD, non-EU economies."
+    },
+    {
+     "name": "Eurostat–OECD PPP Programme",
+     "url": "https://data-explorer.oecd.org/",
+     "role": "primary",
+     "contribution": "Supplies the PPPs for EU and OECD member countries."
+    },
+    {
+     "name": "OECD National Accounts and IMF World Economic Outlook",
+     "url": "https://www.imf.org/en/Publications/WEO/weo-database",
+     "role": "primary",
+     "contribution": "GNI in local currency comes from national accounts reported by national statistical offices to the OECD and IMF."
+    }
+   ],
    "measures": "Real income available per person, adjusted for what money actually buys locally.",
    "note": "Log-transformed: an extra $1,000 matters far more to a poor country than a rich one (same convention as the UN Human Development Index).",
    "goalposts": {
@@ -196,6 +220,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series NY.GNP.PCAP.PP.KD (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GNP.PCAP.PP.KD?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/NY.GNP.PCAP.PP.KD",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/NY.GNP.PCAP.PP.KD?format=json"
+   },
+   "official": {
+    "sourceOrganization": "International Comparison Program (ICP), World Bank (WB), uri: https://www.worldbank.org/en/programs/icp/data, note: This information is for ICP’s PPPs utilized in WDI, publisher: International Comparison Program (ICP), date accessed: May 30, 2024, date published: May 30, 2024;\nThe Eurostat PPP Programme, Eurostat (ESTAT), uri: https://ec.europa.eu/eurostat/databrowser/explore/all/all_themes, publisher: Eurostat;\nThe OECD PPP Programme, Organisation for Economic Co-operation and Development (OECD), uri: https://data-explorer.oecd.org/, publisher: OECD;\nStaff estimates, World Bank (WB);\nNational Accounts data files, Organisation for Economic Co-operation and Development (OECD);\nWorld Economic Outlook database, International Monetary Fund (IMF)",
+    "sourceNote": "This indicator provides values for gross national income (GNI) per person expressed in constant international dollars, converted by purchasing power parities (PPPs). PPPs account for the different price levels across countries and thus PPP-based comparisons of economic output are more appropriate for comparing the output of economies and the average material well-being of their inhabitants than exchange-rate based comparisons. \n\nGross national income is the total income earned by all residents within an economic territory during an accounting period. It is equal to gross domestic product plus earned income receivable from abroad minus earned income payable abroad. The core indicator has been divided by the general population to achieve a per capita estimate. This indicator is expressed in constant prices, meaning the series has been adjusted to account for price changes over time. The reference year for this adjustment is 2021. The PPP conversion factor is a currency conversion factor and a spatial price deflator. PPPs convert different currencies to a common currency and, in the process of conversion, equalize their purchasing power by eliminating the differences in price levels between countries, thereby allowing volume or output comparisons of GDP and its expenditure components."
    }
   },
   {
@@ -208,8 +243,14 @@
    "maxCarry": 3,
    "kind": "official",
    "sourceType": "statistical",
-   "source": "World Bank / International Comparison Program",
-   "sourceUrl": "https://data.worldbank.org/indicator/PA.NUS.PRVT.PLI",
+   "sources": [
+    {
+     "name": "World Bank World Development Indicators / ICP",
+     "url": "https://www.worldbank.org/en/programs/icp/data",
+     "role": "compiler",
+     "contribution": "The World Bank computes the index as the ICP purchasing power parity for household consumption divided by the market exchange rate, with the United States set to 100."
+    }
+   ],
    "measures": "How expensive everyday goods and services are compared with the United States.",
    "note": "Cost-of-living measure. Rent is included in the ICP consumption basket, but no official cross-country housing-affordability series exists for all economies; see methodology for a proposed proxy.",
    "goalposts": {
@@ -255,6 +296,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series PA.NUS.PRVT.PLI (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/PA.NUS.PRVT.PLI?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/PA.NUS.PRVT.PLI",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/PA.NUS.PRVT.PLI?format=json"
+   },
+   "official": {
+    "sourceOrganization": "World Development Indicators, World Bank (WB), uri: https://databank.worldbank.org/source/world-development-indicators, publisher: World Development Indicators",
+    "sourceNote": "The price level index (PLI) is the ratio of a purchasing power parity (PPP) conversion factor to the corresponding market exchange rate between two countries, expressed relative to a base country that is set equal to 100. For this series the base country is the United States. It provides a measure of the differences in price level between the country and the United States by indicating the number of units of the common currency (US dollars) needed to buy the same volume of the aggregation level in each country. This indicator provides a measure of the differences in the price levels of countries at the level of Households and NPISHs final consumption expenditure."
    }
   },
   {
@@ -267,8 +319,14 @@
    "maxCarry": 2,
    "kind": "official",
    "sourceType": "statistical",
-   "source": "World Bank WDI from IMF International Financial Statistics / national statistical offices",
-   "sourceUrl": "https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG",
+   "sources": [
+    {
+     "name": "IMF International Financial Statistics",
+     "url": "https://data.imf.org/",
+     "role": "compiler",
+     "contribution": "Annual average consumer price index change; national statistical offices report the CPI to the IMF, which publishes it unchanged."
+    }
+   ],
    "measures": "Whether incomes keep their value from one year to the next.",
    "note": "Negative inflation is treated as 0 (deflation is not rewarded). Scored on a capped scale so hyperinflation episodes do not dominate.",
    "goalposts": {
@@ -314,6 +372,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series FP.CPI.TOTL.ZG (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/FP.CPI.TOTL.ZG?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/FP.CPI.TOTL.ZG?format=json"
+   },
+   "official": {
+    "sourceOrganization": "International Financial Statistics database, International Monetary Fund (IMF)",
+    "sourceNote": "Inflation as measured by the consumer price index reflects the annual percentage change in the cost to the average consumer of acquiring a basket of goods and services that may be fixed or changed at specified intervals, such as yearly."
    }
   },
   {
@@ -326,8 +395,26 @@
    "maxCarry": 8,
    "kind": "official",
    "sourceType": "statistical",
-   "source": "World Bank Poverty and Inequality Platform (household surveys)",
-   "sourceUrl": "https://data.worldbank.org/indicator/SI.POV.GINI",
+   "sources": [
+    {
+     "name": "World Bank Poverty and Inequality Platform (PIP)",
+     "url": "https://pip.worldbank.org/",
+     "role": "compiler",
+     "contribution": "Computes the Gini from household survey microdata; one value per survey year."
+    },
+    {
+     "name": "Household surveys of national statistical agencies",
+     "url": "https://pip.worldbank.org/country-profiles",
+     "role": "primary",
+     "contribution": "Income or consumption surveys, obtained through government statistical agencies and World Bank country departments; the PIP country profiles list the survey behind each value."
+    },
+    {
+     "name": "Luxembourg Income Study (LIS)",
+     "url": "https://www.lisdatacenter.org/",
+     "role": "primary",
+     "contribution": "Source of the harmonised survey data for most high-income economies."
+    }
+   ],
    "measures": "Whether the average income is actually reached by the typical household.",
    "note": "Survey based, so observed only every few years; last observation carried forward up to 8 years and flagged.",
    "goalposts": {
@@ -373,6 +460,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series SI.POV.GINI (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SI.POV.GINI?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/SI.POV.GINI",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/SI.POV.GINI?format=json"
+   },
+   "official": {
+    "sourceOrganization": "World Bank, Poverty and Inequality Platform. Data are based on primary household survey data obtained from government statistical agencies and World Bank country departments. Data for high-income economies are mostly from the Luxembourg Income Study database. For more information and methodology, please see http://pip.worldbank.org., World Bank (WB), uri: http://pip.worldbank.org, note: Data are based on primary household survey data obtained from government statistical agencies and World Bank country departments. Data for high-income economies are mostly from the Luxembourg Income Study database.",
+    "sourceNote": "Gini index measures the extent to which the distribution of income (or, in some cases, consumption expenditure) among individuals or households within an economy deviates from a perfectly equal distribution. A Lorenz curve plots the cumulative percentages of total income received against the cumulative number of recipients, starting with the poorest individual or household. The Gini index measures the area between the Lorenz curve and a hypothetical line of absolute equality, expressed as a percentage of the maximum area under the line. Thus a Gini index of 0 represents perfect equality, while an index of 100 implies perfect inequality."
    }
   },
   {
@@ -385,8 +483,26 @@
    "maxCarry": 3,
    "kind": "official",
    "sourceType": "statistical",
-   "source": "World Bank WDI from UN World Population Prospects and national statistics",
-   "sourceUrl": "https://data.worldbank.org/indicator/SP.DYN.LE00.IN",
+   "sources": [
+    {
+     "name": "UN World Population Prospects (UN Population Division)",
+     "url": "https://population.un.org/wpp/",
+     "role": "primary",
+     "contribution": "Provides the life expectancy estimates for most countries."
+    },
+    {
+     "name": "National statistical offices",
+     "url": "https://unstats.un.org/home/nso_sites/",
+     "role": "primary",
+     "contribution": "For some countries the World Bank derives the value from male and female life expectancy published by the national statistical office."
+    },
+    {
+     "name": "Eurostat demographic statistics",
+     "url": "https://ec.europa.eu/eurostat/web/population-demography/demography-population-stock-balance/database",
+     "role": "primary",
+     "contribution": "Same derivation for EU member states, from Eurostat's life-expectancy tables."
+    }
+   ],
    "measures": "Overall health outcome.",
    "goalposts": {
     "lowT": 50.9066,
@@ -431,6 +547,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series SP.DYN.LE00.IN (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SP.DYN.LE00.IN?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/SP.DYN.LE00.IN",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/SP.DYN.LE00.IN?format=json"
+   },
+   "official": {
+    "sourceOrganization": "World Population Prospects, United Nations (UN), uri: UN Population Division;\nStatistical databases and publications from national statistical offices, National Statistical Offices (NSOs), note: Derived from male and female life expectancy at birth from sources such as statistical databases and publications from national statistical offices.;\nDemographic Statistics, Eurostat (ESTAT), note: Derived from male and female life expectancy at birth from sources such as Eurostat: Demographic Statistics.",
+    "sourceNote": "Life expectancy at birth indicates the number of years a newborn infant would live if prevailing patterns of mortality at the time of its birth were to stay the same throughout its life."
    }
   },
   {
@@ -443,8 +570,14 @@
    "maxCarry": 5,
    "kind": "official",
    "sourceType": "statistical",
-   "source": "World Health Organization (SDG 3.8.1), via World Bank WDI",
-   "sourceUrl": "https://data.worldbank.org/indicator/SH_UHC_SCI",
+   "sources": [
+    {
+     "name": "WHO Global Health Observatory, UHC service coverage index (SDG 3.8.1)",
+     "url": "https://www.who.int/data/gho/data/indicators/indicator-details/GHO/uhc-index-of-service-coverage",
+     "role": "compiler",
+     "contribution": "WHO computes the index from 14 tracer indicators; the World Bank republishes it unchanged."
+    }
+   ],
    "measures": "Coverage of essential health services (reproductive, infectious, non-communicable, capacity).",
    "note": "Published every two to three years; carried forward and flagged in between.",
    "goalposts": {
@@ -490,6 +623,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series SH_UHC_SCI (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SH_UHC_SCI?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/SH_UHC_SCI",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/SH_UHC_SCI?format=json"
+   },
+   "official": {
+    "sourceOrganization": "Universal Health Coverage Dataset, World Health Organization (WHO), uri: https://www.who.int/data/gho/data/indicators/indicator-details/GHO/uhc-index-of-service-coverage",
+    "sourceNote": "A composite index representing coverage of essential health services based on 14 tracer indicators in the areas of reproductive, maternal, newborn and child health, infectious diseases, noncommunicable diseases and service capacity and access. It is presented on a scale of 0 to 100 index points."
    }
   },
   {
@@ -502,8 +646,26 @@
    "maxCarry": 5,
    "kind": "proxy",
    "sourceType": "statistical",
-   "source": "WHO Global Health Workforce Statistics, via World Bank WDI",
-   "sourceUrl": "https://data.worldbank.org/indicator/SH.MED.PHYS.ZS",
+   "sources": [
+    {
+     "name": "WHO National Health Workforce Accounts (Global Health Workforce Statistics)",
+     "url": "https://www.who.int/data/gho/data/themes/topics/health-workforce",
+     "role": "primary",
+     "contribution": "Physician counts reported by countries to WHO, the main source for most economies."
+    },
+    {
+     "name": "OECD Health Statistics",
+     "url": "https://data-explorer.oecd.org/",
+     "role": "primary",
+     "contribution": "Physician counts for OECD member countries."
+    },
+    {
+     "name": "World Bank WDI",
+     "url": "https://data.worldbank.org/indicator/SH.MED.PHYS.ZS",
+     "role": "compiler",
+     "contribution": "Combines the two sources with country-reported data and divides by population to give physicians per 1,000 people."
+    }
+   ],
    "measures": "Physical access to a doctor (proxy for waiting times and appointment availability, which are not measured consistently across countries).",
    "goalposts": {
     "lowT": 0.043,
@@ -548,6 +710,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series SH.MED.PHYS.ZS (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SH.MED.PHYS.ZS?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/SH.MED.PHYS.ZS",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/SH.MED.PHYS.ZS?format=json"
+   },
+   "official": {
+    "sourceOrganization": "Global Health Workforce Statistics, World Health Organization (WHO);\nOrganisation for Economic Co-operation and Development (OECD);\nCountry data",
+    "sourceNote": "Physicians include generalist and specialist medical practitioners."
    }
   },
   {
@@ -560,8 +733,14 @@
    "maxCarry": 3,
    "kind": "proxy",
    "sourceType": "statistical",
-   "source": "WHO Global Health Expenditure Database, via World Bank WDI",
-   "sourceUrl": "https://data.worldbank.org/indicator/SH.XPD.OOPC.CH.ZS",
+   "sources": [
+    {
+     "name": "WHO Global Health Expenditure Database",
+     "url": "https://apps.who.int/nha/database",
+     "role": "compiler",
+     "contribution": "National health accounts compiled by WHO; out-of-pocket spending divided by current health expenditure."
+    }
+   ],
    "measures": "Financial access to care: how much of the health bill households pay themselves at the point of use.",
    "goalposts": {
     "lowT": 3.3387622822500007,
@@ -606,6 +785,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series SH.XPD.OOPC.CH.ZS (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SH.XPD.OOPC.CH.ZS?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/SH.XPD.OOPC.CH.ZS",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/SH.XPD.OOPC.CH.ZS?format=json"
+   },
+   "official": {
+    "sourceOrganization": "Global Health Expenditure Database, updated December 12th, 2025, World Health Organization (WHO), uri: http://apps.who.int/nha/database",
+    "sourceNote": "Share of out-of-pocket payments of total current health expenditures.  Out-of-pocket payments are spending on health directly out-of-pocket by households."
    }
   },
   {
@@ -618,8 +808,14 @@
    "maxCarry": 3,
    "kind": "official",
    "sourceType": "modelled",
-   "source": "UN Inter-agency Group for Child Mortality Estimation, via World Bank WDI",
-   "sourceUrl": "https://data.worldbank.org/indicator/SP.DYN.IMRT.IN",
+   "sources": [
+    {
+     "name": "UN Inter-agency Group for Child Mortality Estimation (UNICEF, WHO, World Bank, UN Population Division)",
+     "url": "https://childmortality.org/",
+     "role": "compiler",
+     "contribution": "A single joint estimate per country-year, modelled from vital registration, censuses and household surveys; the four agencies publish the same number."
+    }
+   ],
    "measures": "Effectiveness of the maternal and child health system.",
    "goalposts": {
     "lowT": 0.7884573603642703,
@@ -664,6 +860,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series SP.DYN.IMRT.IN (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SP.DYN.IMRT.IN?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/SP.DYN.IMRT.IN",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/SP.DYN.IMRT.IN?format=json"
+   },
+   "official": {
+    "sourceOrganization": "UN Inter-agency Group for Child Mortality Estimation, UN Children's Fund (UNICEF), uri: www.childmortality.org;\nWorld Health Organization (WHO), uri: www.childmortality.org, note: UN Inter-agency Group for Child Mortality Estimation;\nWorld Bank (WB), uri: www.childmortality.org, note: UN Inter-agency Group for Child Mortality Estimation;\nUnited Nations (UN), uri: www.childmortality.org, note: UN Inter-agency Group for Child Mortality Estimation, publisher: UN Population Division",
+    "sourceNote": "Infant mortality rate is the number of infants dying before reaching one year of age, per 1,000 live births in a given year."
    }
   },
   {
@@ -676,8 +883,14 @@
    "maxCarry": 2,
    "kind": "official",
    "sourceType": "modelled",
-   "source": "International Labour Organization, ILOSTAT (modelled estimates), via World Bank WDI",
-   "sourceUrl": "https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS",
+   "sources": [
+    {
+     "name": "ILO modelled estimates (ILOEST), ILOSTAT",
+     "url": "https://ilostat.ilo.org/data/",
+     "role": "compiler",
+     "contribution": "Labour force survey results reported by national statistical offices, harmonised and gap-filled by the ILO's estimation model."
+    }
+   ],
    "measures": "Job availability.",
    "goalposts": {
     "lowT": 0.8514999999999999,
@@ -722,6 +935,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series SL.UEM.TOTL.ZS (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SL.UEM.TOTL.ZS?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/SL.UEM.TOTL.ZS?format=json"
+   },
+   "official": {
+    "sourceOrganization": "ILO Modelled Estimates database (ILOEST), International Labour Organization (ILO), uri: https://ilostat.ilo.org/data/bulk/, publisher: ILOSTAT, type: external database, date accessed: January 17, 2026",
+    "sourceNote": "Unemployment refers to the share of the labor force that is without work but available for and seeking employment."
    }
   },
   {
@@ -734,8 +958,14 @@
    "maxCarry": 2,
    "kind": "official",
    "sourceType": "modelled",
-   "source": "International Labour Organization, ILOSTAT (modelled estimates), via World Bank WDI",
-   "sourceUrl": "https://data.worldbank.org/indicator/SL.UEM.1524.ZS",
+   "sources": [
+    {
+     "name": "ILO modelled estimates (ILOEST), ILOSTAT",
+     "url": "https://ilostat.ilo.org/data/",
+     "role": "compiler",
+     "contribution": "Labour force survey results reported by national statistical offices, harmonised and gap-filled by the ILO's estimation model."
+    }
+   ],
    "measures": "Job availability for people entering the labour market.",
    "goalposts": {
     "lowT": 1.554625,
@@ -780,6 +1010,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series SL.UEM.1524.ZS (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SL.UEM.1524.ZS?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/SL.UEM.1524.ZS",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/SL.UEM.1524.ZS?format=json"
+   },
+   "official": {
+    "sourceOrganization": "ILO Modelled Estimates database (ILOEST), International Labour Organization (ILO), uri: https://ilostat.ilo.org/data/bulk/, publisher: ILOSTAT, type: external database, date accessed: January 17, 2026",
+    "sourceNote": "Youth unemployment refers to the share of the labor force ages 15-24 without work but available for and seeking employment."
    }
   },
   {
@@ -792,8 +1033,14 @@
    "maxCarry": 2,
    "kind": "official",
    "sourceType": "modelled",
-   "source": "International Labour Organization, ILOSTAT (modelled estimates), via World Bank WDI",
-   "sourceUrl": "https://data.worldbank.org/indicator/SL.EMP.TOTL.SP.ZS",
+   "sources": [
+    {
+     "name": "ILO modelled estimates (ILOEST), ILOSTAT",
+     "url": "https://ilostat.ilo.org/data/",
+     "role": "compiler",
+     "contribution": "Labour force survey results reported by national statistical offices, harmonised and gap-filled by the ILO's estimation model."
+    }
+   ],
    "measures": "How much of the adult population is actually in work (captures discouraged workers that the unemployment rate misses).",
    "goalposts": {
     "lowT": 32.364625000000004,
@@ -838,6 +1085,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series SL.EMP.TOTL.SP.ZS (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SL.EMP.TOTL.SP.ZS?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/SL.EMP.TOTL.SP.ZS",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/SL.EMP.TOTL.SP.ZS?format=json"
+   },
+   "official": {
+    "sourceOrganization": "ILO Modelled Estimates database (ILOEST), International Labour Organization (ILO), uri: https://ilostat.ilo.org/data/bulk/, publisher: ILOSTAT, type: external database, date accessed: January 17, 2026",
+    "sourceNote": "Employment to population ratio is the proportion of a country's population that is employed."
    }
   },
   {
@@ -850,8 +1108,20 @@
    "maxCarry": 2,
    "kind": "proxy",
    "sourceType": "modelled",
-   "source": "International Labour Organization, ILOSTAT (modelled estimates), via World Bank WDI",
-   "sourceUrl": "https://data.worldbank.org/indicator/SL.EMP.VULN.ZS",
+   "sources": [
+    {
+     "name": "ILO modelled estimates (ILOEST), ILOSTAT",
+     "url": "https://ilostat.ilo.org/data/",
+     "role": "compiler",
+     "contribution": "Status-in-employment data from labour force surveys, harmonised and gap-filled by the ILO's estimation model."
+    },
+    {
+     "name": "World Bank staff estimates",
+     "url": "https://data.worldbank.org/indicator/SL.EMP.VULN.ZS",
+     "role": "compiler",
+     "contribution": "Sums own-account and contributing family workers as a share of total employment, with staff estimates where the ILO series is incomplete."
+    }
+   ],
    "measures": "Job quality: share of workers who are own-account or unpaid family workers, typically without contracts or social protection.",
    "goalposts": {
     "lowT": 3.1822798134110637,
@@ -896,6 +1166,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series SL.EMP.VULN.ZS (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SL.EMP.VULN.ZS?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/SL.EMP.VULN.ZS",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/SL.EMP.VULN.ZS?format=json"
+   },
+   "official": {
+    "sourceOrganization": "ILO Modelled Estimates database (ILOEST), International Labour Organization (ILO), uri: https://ilostat.ilo.org/data/bulk/, publisher: ILOSTAT, type: estimates based on external database;\nStaff estimates, World Bank (WB)",
+    "sourceNote": "Vulnerable employment is contributing family workers and own-account workers as a percentage of total employment."
    }
   },
   {
@@ -908,8 +1189,14 @@
    "maxCarry": 8,
    "kind": "official",
    "sourceType": "statistical",
-   "source": "UNESCO Institute for Statistics (censuses and household surveys), via World Bank WDI",
-   "sourceUrl": "https://data.worldbank.org/indicator/SE.TER.CUAT.BA.ZS",
+   "sources": [
+    {
+     "name": "UNESCO Institute for Statistics (UIS) data browser",
+     "url": "https://databrowser.uis.unesco.org/",
+     "role": "compiler",
+     "contribution": "UIS compiles attainment from national population censuses and household surveys; one value per census or survey year. The World Bank pulls it through the UIS API."
+    }
+   ],
    "measures": "Share of the adult population holding a university degree.",
    "note": "The direct answer to 'how many people have a degree'. Observed only in census/survey years; carried forward up to 8 years and flagged. Where it is missing, tertiary enrolment serves as the proxy.",
    "goalposts": {
@@ -955,6 +1242,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series SE.TER.CUAT.BA.ZS (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SE.TER.CUAT.BA.ZS?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/SE.TER.CUAT.BA.ZS",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/SE.TER.CUAT.BA.ZS?format=json"
+   },
+   "official": {
+    "sourceOrganization": "Data API, UN Educational, Scientific and Cultural Organization (UNESCO), uri: https://databrowser.uis.unesco.org/resources, note: The data are obtained through the UIS API.  Detailed documentation is available at: https://api.uis.unesco.org/api/public/documentation/, publisher: UNESCO Institute for Statistics (UIS), type: Bulk file (csv), date accessed: 2026-03-19, date published: 2026-02",
+    "sourceNote": "The percentage of population ages 25 and over that attained or completed Bachelor's or equivalent."
    }
   },
   {
@@ -967,8 +1265,14 @@
    "maxCarry": 8,
    "kind": "official",
    "sourceType": "statistical",
-   "source": "UNESCO Institute for Statistics, via World Bank WDI",
-   "sourceUrl": "https://data.worldbank.org/indicator/SE.SEC.CUAT.UP.ZS",
+   "sources": [
+    {
+     "name": "UNESCO Institute for Statistics (UIS) data browser",
+     "url": "https://databrowser.uis.unesco.org/",
+     "role": "compiler",
+     "contribution": "UIS compiles attainment from national population censuses and household surveys; one value per census or survey year. The World Bank pulls it through the UIS API."
+    }
+   ],
    "measures": "Baseline education level of the adult population.",
    "goalposts": {
     "lowT": 6.428541874885562,
@@ -1013,6 +1317,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series SE.SEC.CUAT.UP.ZS (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SE.SEC.CUAT.UP.ZS?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/SE.SEC.CUAT.UP.ZS",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/SE.SEC.CUAT.UP.ZS?format=json"
+   },
+   "official": {
+    "sourceOrganization": "Data API, UN Educational, Scientific and Cultural Organization (UNESCO), uri: https://databrowser.uis.unesco.org/resources, note: The data are obtained through the UIS API.  Detailed documentation is available at: https://api.uis.unesco.org/api/public/documentation/, publisher: UNESCO Institute for Statistics (UIS), type: Bulk file (csv), date accessed: 2026-03-19, date published: 2026-02",
+    "sourceNote": "The percentage of population ages 25 and over that attained or completed upper secondary education."
    }
   },
   {
@@ -1025,8 +1340,14 @@
    "maxCarry": 4,
    "kind": "proxy",
    "sourceType": "statistical",
-   "source": "UNESCO Institute for Statistics, via World Bank WDI",
-   "sourceUrl": "https://data.worldbank.org/indicator/SE.TER.ENRR",
+   "sources": [
+    {
+     "name": "UNESCO Institute for Statistics (UIS) data browser",
+     "url": "https://databrowser.uis.unesco.org/",
+     "role": "compiler",
+     "contribution": "Enrolment counts reported by ministries of education to UIS, divided by UN population estimates for the relevant age group."
+    }
+   ],
    "measures": "Access to higher education today (leading indicator of future degree attainment).",
    "note": "Gross ratios can exceed 100% because of mature and repeat students; capped at 100.",
    "goalposts": {
@@ -1072,6 +1393,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series SE.TER.ENRR (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SE.TER.ENRR?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/SE.TER.ENRR",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/SE.TER.ENRR?format=json"
+   },
+   "official": {
+    "sourceOrganization": "Data API, UN Educational, Scientific and Cultural Organization (UNESCO), uri: https://databrowser.uis.unesco.org/resources, note: The data are obtained through the UIS API.  Detailed documentation is available at: https://api.uis.unesco.org/api/public/documentation/, publisher: UNESCO Institute for Statistics (UIS), type: Bulk file (csv), date accessed: 2026-03-19, date published: 2026-02",
+    "sourceNote": "Gross enrollment ratio is the ratio of total enrollment, regardless of age, to the population of the age group that officially corresponds to the level of education shown. Tertiary education, whether or not to an advanced research qualification, normally requires, as a minimum condition of admission, the successful completion of education at the secondary level."
    }
   },
   {
@@ -1084,8 +1416,26 @@
    "maxCarry": 10,
    "kind": "official",
    "sourceType": "statistical",
-   "source": "World Bank Human Capital Project (harmonised test scores × expected years of school)",
-   "sourceUrl": "https://data.worldbank.org/indicator/HD.HCI.LAYS",
+   "sources": [
+    {
+     "name": "World Bank Human Capital Project",
+     "url": "https://www.worldbank.org/en/publication/human-capital",
+     "role": "compiler",
+     "contribution": "World Bank staff calculation: expected years of school multiplied by harmonised test score ÷ 625 (method in Filmer et al. 2018)."
+    },
+    {
+     "name": "UNESCO UIS enrolment data",
+     "url": "https://databrowser.uis.unesco.org/",
+     "role": "primary",
+     "contribution": "Enrolment rates by age that give the expected years of school."
+    },
+    {
+     "name": "International student assessments (PISA, TIMSS, PIRLS, SACMEQ, PASEC, LLECE)",
+     "url": "https://datacatalog.worldbank.org/search/dataset/0038001",
+     "role": "primary",
+     "contribution": "Test results harmonised onto one scale by the World Bank to give the learning adjustment."
+    }
+   ],
    "measures": "Quality of schooling: years of school adjusted for how much children actually learn.",
    "note": "Published for 2010, 2017, 2018 and 2020 only; carried forward and flagged.",
    "goalposts": {
@@ -1131,6 +1481,17 @@
     },
     "sourceLastUpdated": "2020-09-21",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series HD.HCI.LAYS (Human Capital Index)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/HD.HCI.LAYS?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/HD.HCI.LAYS",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/HD.HCI.LAYS?format=json"
+   },
+   "official": {
+    "sourceOrganization": "World Bank staff calculation based on methodology in Filmer et al. (2018).  http://documents.worldbank.org/curated/en/243261538075151093/Learning-Adjusted-Years-of-Schooling-LAYS-Defining-A-New-Macro-Measure-of-Education",
+    "sourceNote": "Learning-adjusted years of school are calculated by multiplying the estimates of expected years of school by the ratio of most recent harmonized test scores to 625."
    }
   },
   {
@@ -1143,8 +1504,38 @@
    "maxCarry": 3,
    "kind": "official",
    "sourceType": "statistical",
-   "source": "UNDP Human Development Report 2025 (from UNESCO Institute for Statistics, Barro-Lee, ICF DHS, UNICEF MICS, OECD)",
-   "sourceUrl": "https://hdr.undp.org/data-center/documentation-and-downloads",
+   "sources": [
+    {
+     "name": "UNDP Human Development Report 2025, composite indices time series",
+     "url": "https://hdr.undp.org/data-center/documentation-and-downloads",
+     "role": "compiler",
+     "contribution": "UNDP assembles the annual series, taking UIS values where available and filling and interpolating from the survey sources below."
+    },
+    {
+     "name": "UNESCO Institute for Statistics",
+     "url": "https://databrowser.uis.unesco.org/",
+     "role": "primary",
+     "contribution": "Main source: attainment distributions from censuses and surveys."
+    },
+    {
+     "name": "Barro-Lee Educational Attainment Dataset",
+     "url": "https://barrolee.github.io/BarroLeeDataSet/",
+     "role": "primary",
+     "contribution": "Fills countries and years without UIS data."
+    },
+    {
+     "name": "ICF Demographic and Health Surveys (DHS) and UNICEF MICS",
+     "url": "https://dhsprogram.com/data/",
+     "role": "primary",
+     "contribution": "Household surveys used for countries with no census-based attainment data."
+    },
+    {
+     "name": "OECD education statistics",
+     "url": "https://data-explorer.oecd.org/",
+     "role": "primary",
+     "contribution": "Attainment for OECD members."
+    }
+   ],
    "measures": "Average education level of the adult population.",
    "note": "Annual series from the HDR composite indices file; UNDP interpolates between survey years.",
    "goalposts": {
@@ -1190,6 +1581,17 @@
     },
     "sourceLastUpdated": "HDR 2025",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "file",
+    "name": "UNDP HDR 2025 composite indices time series (CSV), column mys_YYYY",
+    "url": "https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv",
+    "page": "https://hdr.undp.org/data-center/documentation-and-downloads",
+    "metadataUrl": null
+   },
+   "official": {
+    "sourceOrganization": "UNDP Human Development Report Office, HDR 2025 composite indices time series, column mys_YYYY",
+    "sourceNote": "Average number of completed years of education of a country's population aged 25 years and older, excluding years spent repeating individual grades."
    }
   },
   {
@@ -1202,8 +1604,14 @@
    "maxCarry": 4,
    "kind": "official",
    "sourceType": "statistical",
-   "source": "UN Office on Drugs and Crime, via World Bank WDI",
-   "sourceUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+   "sources": [
+    {
+     "name": "UNODC data portal, intentional homicide",
+     "url": "https://dataunodc.un.org/dp-intentional-homicide-victims",
+     "role": "compiler",
+     "contribution": "Homicide counts reported by national police and criminal-justice systems to UNODC, divided by population."
+    }
+   ],
    "measures": "Personal safety from lethal violence (the one crime statistic comparable across countries).",
    "goalposts": {
     "lowT": 0.2836769237987789,
@@ -1248,6 +1656,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series VC.IHR.PSRC.P5 (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/VC.IHR.PSRC.P5?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/VC.IHR.PSRC.P5?format=json"
+   },
+   "official": {
+    "sourceOrganization": "UNODC Research - Data Portal – Intentional Homicide, UN Office on Drugs and Crime (UNODC)",
+    "sourceNote": "An intentional homicide is defined as an unlawful death inflicted upon a person with the intent to cause death or serious injury."
    }
   },
   {
@@ -1260,8 +1679,14 @@
    "maxCarry": 2,
    "kind": "official",
    "sourceType": "expert",
-   "source": "World Bank Worldwide Governance Indicators (Kaufmann & Kraay)",
-   "sourceUrl": "https://www.worldbank.org/en/publication/worldwide-governance-indicators",
+   "sources": [
+    {
+     "name": "Worldwide Governance Indicators (World Bank), 2025 revision",
+     "url": "https://www.govindicators.org/",
+     "role": "compiler",
+     "contribution": "Aggregates about 30 underlying data sources (household and firm surveys, NGO assessments, commercial risk raters, public-sector bodies) into one estimate per country-year with an unobserved-components model; the site shows which sources enter each country's estimate."
+    }
+   ],
    "measures": "Likelihood of political instability or politically motivated violence.",
    "note": "Composite of expert and survey sources; the WGI publish a standard error for each estimate.",
    "goalposts": {
@@ -1307,6 +1732,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series GOV_WGI_PV_EST (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/GOV_WGI_PV_EST?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/GOV_WGI_PV_EST",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/GOV_WGI_PV_EST?format=json"
+   },
+   "official": {
+    "sourceOrganization": "The Worldwide Governance Indicators: Revised Methodology for Measuring Governance Using Perception Data., World Bank Group (WBG), uri: https://www.worldbank.org/en/publication/worldwide-governance-indicators, note: Detailed documentation of the WGI, interactive tools for exploring the data, and full access to the underlying source data available at www.govindicators.org. Worldwide Governance Indicators, 2025 Revision, World Bank (www.govindicators.org), Accessed on 12/15/2025. And: World Bank (2025). “The Worldwide Governance Indicators: Revised Methodology for Measuring Governance Using Perception Data.” Washington, DC: World Bank Group. The 2025 revision builds upon the original WGI methodology which was introduced in 1999 and summarized by the following paper: Kaufmann, Daniel & Aart C. Kraay. (2024). “The Worldwide Governance Indicators: Methodology and 2024 Update.” Policy Research Working Paper. Washington, DC: World Bank Group., date accessed: 2026-06-03, date published: 2025",
+    "sourceNote": "Political Stability (PV) captures perceptions of the extent to which political power and governance are secure from destabilization, and of the likelihood that authority will be challenged or altered through violent, coercive, or unconstitutional means. \n\nGovernance estimate from the aggregation model, in units of a standard normal distribution, i.e. ranging from approximately -2.5 to 2.5. Larger values correspond to better governance.\n\nThe (country-series-time) metadata include the (a) number of sources, and (b) standard error. The number of sources indicates the number of underlying data sources on which the governance estimate is based. The standard error indicates the precision of the governance estimate. Larger values indicate less precise estimates. A 90% confidence interval for the governance estimate is given by the estimate +/- 1.64 times the standard error."
    }
   },
   {
@@ -1319,8 +1755,14 @@
    "maxCarry": 2,
    "kind": "official",
    "sourceType": "expert",
-   "source": "World Bank Worldwide Governance Indicators",
-   "sourceUrl": "https://www.worldbank.org/en/publication/worldwide-governance-indicators",
+   "sources": [
+    {
+     "name": "Worldwide Governance Indicators (World Bank), 2025 revision",
+     "url": "https://www.govindicators.org/",
+     "role": "compiler",
+     "contribution": "Aggregates about 30 underlying data sources (household and firm surveys, NGO assessments, commercial risk raters, public-sector bodies) into one estimate per country-year with an unobserved-components model; the site shows which sources enter each country's estimate."
+    }
+   ],
    "measures": "Confidence in contracts, property rights, the police and the courts.",
    "goalposts": {
     "lowT": -1.7141112199999906,
@@ -1365,6 +1807,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series GOV_WGI_RL_EST (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/GOV_WGI_RL_EST?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/GOV_WGI_RL_EST",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/GOV_WGI_RL_EST?format=json"
+   },
+   "official": {
+    "sourceOrganization": "The Worldwide Governance Indicators: Revised Methodology for Measuring Governance Using Perception Data., World Bank Group (WBG), uri: https://www.worldbank.org/en/publication/worldwide-governance-indicators, note: Detailed documentation of the WGI, interactive tools for exploring the data, and full access to the underlying source data available at www.govindicators.org. Worldwide Governance Indicators, 2025 Revision, World Bank (www.govindicators.org), Accessed on 12/15/2025. And: World Bank (2025). “The Worldwide Governance Indicators: Revised Methodology for Measuring Governance Using Perception Data.” Washington, DC: World Bank Group. The 2025 revision builds upon the original WGI methodology which was introduced in 1999 and summarized by the following paper: Kaufmann, Daniel & Aart C. Kraay. (2024). “The Worldwide Governance Indicators: Methodology and 2024 Update.” Policy Research Working Paper. Washington, DC: World Bank Group., date accessed: 2026-06-03, date published: 2025",
+    "sourceNote": "Rule of Law (RL) captures perceptions of the extent to which agents respect and follow the rules of society, including contract enforcement, property rights, the police, courts, and the likelihood of crime and violence. \n\nGovernance estimate from the aggregation model, in units of a standard normal distribution, i.e. ranging from approximately -2.5 to 2.5. Larger values correspond to better governance.\n\nThe (country-series-time) metadata include the (a) number of sources, and (b) standard error. The number of sources indicates the number of underlying data sources on which the governance estimate is based. The standard error indicates the precision of the governance estimate. Larger values indicate less precise estimates. A 90% confidence interval for the governance estimate is given by the estimate +/- 1.64 times the standard error."
    }
   },
   {
@@ -1377,8 +1830,14 @@
    "maxCarry": 2,
    "kind": "official",
    "sourceType": "expert",
-   "source": "World Bank Worldwide Governance Indicators",
-   "sourceUrl": "https://www.worldbank.org/en/publication/worldwide-governance-indicators",
+   "sources": [
+    {
+     "name": "Worldwide Governance Indicators (World Bank), 2025 revision",
+     "url": "https://www.govindicators.org/",
+     "role": "compiler",
+     "contribution": "Aggregates about 30 underlying data sources (household and firm surveys, NGO assessments, commercial risk raters, public-sector bodies) into one estimate per country-year with an unobserved-components model; the site shows which sources enter each country's estimate."
+    }
+   ],
    "measures": "Freedom of expression, freedom of association, free media, and the ability to choose one's government.",
    "goalposts": {
     "lowT": -1.8082023525,
@@ -1423,6 +1882,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series GOV_WGI_VA_EST (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/GOV_WGI_VA_EST?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/GOV_WGI_VA_EST",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/GOV_WGI_VA_EST?format=json"
+   },
+   "official": {
+    "sourceOrganization": "The Worldwide Governance Indicators: Revised Methodology for Measuring Governance Using Perception Data., World Bank Group (WBG), uri: https://www.worldbank.org/en/publication/worldwide-governance-indicators, note: Detailed documentation of the WGI, interactive tools for exploring the data, and full access to the underlying source data available at www.govindicators.org. Worldwide Governance Indicators, 2025 Revision, World Bank (www.govindicators.org), Accessed on 12/15/2025. And: World Bank (2025). “The Worldwide Governance Indicators: Revised Methodology for Measuring Governance Using Perception Data.” Washington, DC: World Bank Group. The 2025 revision builds upon the original WGI methodology which was introduced in 1999 and summarized by the following paper: Kaufmann, Daniel & Aart C. Kraay. (2024). “The Worldwide Governance Indicators: Methodology and 2024 Update.” Policy Research Working Paper. Washington, DC: World Bank Group., date accessed: 2026-06-03, date published: 2025",
+    "sourceNote": "Voice and Accountability (VA) captures perceptions of the extent to which citizens can participate in selecting their government including electoral integrity, and of accountability mechanisms for citizens—reflected in the ability to access information, governmental oversight bodies, and a robust traditional/digital media landscape.\n\nGovernance estimate from the aggregation model, in units of a standard normal distribution, i.e. ranging from approximately -2.5 to 2.5. Larger values correspond to better governance.\n\nThe (country-series-time) metadata include the (a) number of sources, and (b) standard error. The number of sources indicates the number of underlying data sources on which the governance estimate is based. The standard error indicates the precision of the governance estimate. Larger values indicate less precise estimates. A 90% confidence interval for the governance estimate is given by the estimate +/- 1.64 times the standard error."
    }
   },
   {
@@ -1435,8 +1905,14 @@
    "maxCarry": 2,
    "kind": "official",
    "sourceType": "expert",
-   "source": "World Bank Worldwide Governance Indicators",
-   "sourceUrl": "https://www.worldbank.org/en/publication/worldwide-governance-indicators",
+   "sources": [
+    {
+     "name": "Worldwide Governance Indicators (World Bank), 2025 revision",
+     "url": "https://www.govindicators.org/",
+     "role": "compiler",
+     "contribution": "Aggregates about 30 underlying data sources (household and firm surveys, NGO assessments, commercial risk raters, public-sector bodies) into one estimate per country-year with an unobserved-components model; the site shows which sources enter each country's estimate."
+    }
+   ],
    "measures": "Whether public power is exercised for private gain.",
    "goalposts": {
     "lowT": -1.5399118799999918,
@@ -1481,6 +1957,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series GOV_WGI_CC_EST (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/GOV_WGI_CC_EST?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/GOV_WGI_CC_EST",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/GOV_WGI_CC_EST?format=json"
+   },
+   "official": {
+    "sourceOrganization": "The Worldwide Governance Indicators: Revised Methodology for Measuring Governance Using Perception Data., World Bank Group (WBG), uri: https://www.worldbank.org/en/publication/worldwide-governance-indicators, note: Detailed documentation of the WGI, interactive tools for exploring the data, and full access to the underlying source data available at www.govindicators.org. Worldwide Governance Indicators, 2025 Revision, World Bank (www.govindicators.org), Accessed on 12/15/2025. And: World Bank (2025). “The Worldwide Governance Indicators: Revised Methodology for Measuring Governance Using Perception Data.” Washington, DC: World Bank Group. The 2025 revision builds upon the original WGI methodology which was introduced in 1999 and summarized by the following paper: Kaufmann, Daniel & Aart C. Kraay. (2024). “The Worldwide Governance Indicators: Methodology and 2024 Update.” Policy Research Working Paper. Washington, DC: World Bank Group., date accessed: 2026-06-03, date published: 2025",
+    "sourceNote": "Control of Corruption (CC) captures perceptions of the extent to which public power is used for private gain, including both petty and grand corruption, as well as capture of the state by elites and private interests. \n\nGovernance estimate from the aggregation model, in units of a standard normal distribution, i.e. ranging from approximately -2.5 to 2.5. Larger values correspond to better governance.\n\nThe (country-series-time) metadata include the (a) number of sources, and (b) standard error. The number of sources indicates the number of underlying data sources on which the governance estimate is based. The standard error indicates the precision of the governance estimate. Larger values indicate less precise estimates. A 90% confidence interval for the governance estimate is given by the estimate +/- 1.64 times the standard error."
    }
   },
   {
@@ -1493,8 +1980,20 @@
    "maxCarry": 2,
    "kind": "official",
    "sourceType": "expert",
-   "source": "V-Dem Institute (University of Gothenburg), Varieties of Democracy v15, via Our World in Data",
-   "sourceUrl": "https://ourworldindata.org/grapher/freedom-of-expression-index",
+   "sources": [
+    {
+     "name": "V-Dem Institute, Varieties of Democracy dataset v15 (index v2x_freexp_altinf)",
+     "url": "https://v-dem.net/data/the-v-dem-dataset/",
+     "role": "compiler",
+     "contribution": "Expert-coded: country experts answer questions on media censorship, harassment of journalists, and freedom of academic, cultural and political discussion; a Bayesian measurement model combines them into one 0–1 index."
+    },
+    {
+     "name": "Our World in Data grapher export",
+     "url": "https://ourworldindata.org/grapher/freedom-of-expression-index",
+     "role": "republisher",
+     "contribution": "Republishes the V-Dem series unchanged with ISO country codes; we download its CSV."
+    }
+   ],
    "measures": "Press and media freedom, freedom of academic and cultural expression, and freedom of ordinary people to discuss politics.",
    "note": "Expert-coded, not a government statistic. It is the most widely used freedom-of-expression series with full annual coverage; the WGI Voice & Accountability estimate serves as the second opinion.",
    "goalposts": {
@@ -1540,6 +2039,17 @@
     },
     "sourceLastUpdated": "V-Dem v15 via OWID",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "file",
+    "name": "Our World in Data grapher CSV, column freeexpr_vdem__estimate_best",
+    "url": "https://ourworldindata.org/grapher/freedom-of-expression-index.csv?v=1&csvType=full&useColumnShortNames=true",
+    "page": "https://ourworldindata.org/grapher/freedom-of-expression-index",
+    "metadataUrl": null
+   },
+   "official": {
+    "sourceOrganization": "V-Dem Institute, V-Dem Dataset v15, variable v2x_freexp_altinf (best estimate), republished by Our World in Data",
+    "sourceNote": "Extent to which government respects press and media freedom, the freedom of ordinary people to discuss political matters at home and in the public sphere, and the freedom of academic and cultural expression. Scale 0 (low) to 1 (high)."
    }
   },
   {
@@ -1552,8 +2062,14 @@
    "maxCarry": 4,
    "kind": "official",
    "sourceType": "modelled",
-   "source": "Global Burden of Disease / WHO, via World Bank WDI",
-   "sourceUrl": "https://data.worldbank.org/indicator/EN.ATM.PM25.MC.M3",
+   "sources": [
+    {
+     "name": "IHME Global Burden of Disease 2023, air pollution exposure estimates",
+     "url": "https://ghdx.healthdata.org/record/ihme-data/gbd-2023-air-pollution-exposure-estimates-1990-2023",
+     "role": "compiler",
+     "contribution": "Population-weighted PM2.5 modelled from satellite retrievals, chemical-transport models and ground monitors; the World Bank republishes it (an account is needed to download from IHME directly)."
+    }
+   ],
    "measures": "Air quality where people actually live.",
    "goalposts": {
     "lowT": 1.4901070094632338,
@@ -1598,6 +2114,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series EN.ATM.PM25.MC.M3 (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/EN.ATM.PM25.MC.M3?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/EN.ATM.PM25.MC.M3",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/EN.ATM.PM25.MC.M3?format=json"
+   },
+   "official": {
+    "sourceOrganization": "Global Burden of Disease Study 2023 (GBD 2023) Air Pollution Exposure Estimates and Risk Curves 1990-2023, GBD Collaborator Network, uri: https://ghdx.healthdata.org/record/ihme-data/gbd-2023-air-pollution-exposure-estimates-1990-2023, note: Need to create account to retrieve data., publisher: Institute for Health Metrics and Evaluation (IHME), date accessed: 2026-04-03, date published: 2026-01-23",
+    "sourceNote": "Population-weighted exposure to ambient PM2.5 pollution is defined as the average level of exposure of a nation's population to concentrations of suspended particles measuring less than 2.5 microns in aerodynamic diameter, which are capable of penetrating deep into the respiratory tract and causing severe health damage. Exposure is calculated by weighting mean annual concentrations of PM2.5 by population in both urban and rural areas."
    }
   },
   {
@@ -1610,8 +2137,14 @@
    "maxCarry": 3,
    "kind": "official",
    "sourceType": "statistical",
-   "source": "WHO/UNICEF Joint Monitoring Programme, via World Bank WDI",
-   "sourceUrl": "https://data.worldbank.org/indicator/SH.H2O.SMDW.ZS",
+   "sources": [
+    {
+     "name": "WHO/UNICEF Joint Monitoring Programme (JMP) for Water Supply, Sanitation and Hygiene",
+     "url": "https://washdata.org/data",
+     "role": "compiler",
+     "contribution": "Estimated by the joint programme from household surveys, censuses and administrative data on water quality and availability."
+    }
+   ],
    "measures": "Basic infrastructure: water that is on premises, available when needed and free of contamination.",
    "goalposts": {
     "lowT": 7.710681242137257,
@@ -1656,6 +2189,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series SH.H2O.SMDW.ZS (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SH.H2O.SMDW.ZS?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/SH.H2O.SMDW.ZS",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/SH.H2O.SMDW.ZS?format=json"
+   },
+   "official": {
+    "sourceOrganization": "WHO/UNICEF Joint Monitoring Programme (JMP) for Water Supply, Sanitation and Hygiene, World Health Organization (WHO), uri: washdata.org, note: Aggregate data by groups are computed based on the groupings for the World Bank fiscal year in which the data was released by the WHO/UNICEF Joint Monitoring Programme (JMP) for Water Supply, Sanitation and Hygiene., publisher: WHO/UNICEF Joint Monitoring Programme (JMP) for Water Supply, Sanitation and Hygiene (washdata.org), date accessed: 2025-09-30, date published: 2025-08-25;\nUN Children's Fund (UNICEF), uri: washdata.org, note: WHO/UNICEF Joint Monitoring Programme (JMP) for Water Supply, Sanitation and Hygiene",
+    "sourceNote": "The percentage of people using drinking water from an improved source that is accessible on premises, available when needed and free from fecal and priority chemical contamination. Improved water sources include piped water, boreholes or tubewells, protected dug wells, protected springs, and packaged or delivered water."
    }
   },
   {
@@ -1668,8 +2212,14 @@
    "maxCarry": 3,
    "kind": "official",
    "sourceType": "statistical",
-   "source": "World Bank Sustainable Energy for All, via WDI",
-   "sourceUrl": "https://data.worldbank.org/indicator/EG.ELC.ACCS.ZS",
+   "sources": [
+    {
+     "name": "World Bank / ESMAP Tracking SDG 7 electrification dataset",
+     "url": "https://trackingsdg7.esmap.org/downloads",
+     "role": "compiler",
+     "contribution": "Household surveys and censuses, with a model filling years between surveys."
+    }
+   ],
    "measures": "Basic infrastructure.",
    "goalposts": {
     "lowT": 9.3,
@@ -1714,6 +2264,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series EG.ELC.ACCS.ZS (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/EG.ELC.ACCS.ZS?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/EG.ELC.ACCS.ZS",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/EG.ELC.ACCS.ZS?format=json"
+   },
+   "official": {
+    "sourceOrganization": "SDG 7.1.1 Electrification Dataset, World Bank (WB), uri: https://trackingsdg7.esmap.org/downloads, note: Data is downloaded from ESMAP website. Data is released when a new Tracking SDG7 report is released., publisher: World Bank (WB), date accessed: 2024-05-16, date published: 2023",
+    "sourceNote": "Access to electricity is the percentage of population with access to electricity. Electrification data are collected from industry, national surveys and international sources."
    }
   },
   {
@@ -1726,8 +2287,14 @@
    "maxCarry": 3,
    "kind": "proxy",
    "sourceType": "statistical",
-   "source": "International Telecommunication Union, via World Bank WDI",
-   "sourceUrl": "https://data.worldbank.org/indicator/IT.NET.USER.ZS",
+   "sources": [
+    {
+     "name": "ITU World Telecommunication/ICT Indicators Database",
+     "url": "https://datahub.itu.int/",
+     "role": "compiler",
+     "contribution": "Household ICT surveys and data from national regulators reported to the ITU, with ITU estimates for missing years."
+    }
+   ],
    "measures": "Connectivity and access to information.",
    "goalposts": {
     "lowT": 0.22249052768114516,
@@ -1772,6 +2339,17 @@
     },
     "sourceLastUpdated": "2026-07-13",
     "fetchedAt": "2026-10-04"
+   },
+   "pulledFrom": {
+    "kind": "worldbank",
+    "name": "World Bank API v2, series IT.NET.USER.ZS (World Development Indicators)",
+    "url": "https://api.worldbank.org/v2/country/all/indicator/IT.NET.USER.ZS?format=json&date=2000:2025&per_page=20000",
+    "page": "https://data.worldbank.org/indicator/IT.NET.USER.ZS",
+    "metadataUrl": "https://api.worldbank.org/v2/indicator/IT.NET.USER.ZS?format=json"
+   },
+   "official": {
+    "sourceOrganization": "World Telecommunication/ICT Indicators Database, International Telecommunication Union (ITU), uri: https://datahub.itu.int/",
+    "sourceNote": "Internet users are individuals who have used the Internet (from any location) in the last 3 months. The Internet can be used via a computer, mobile phone, personal digital assistant, games machine, digital TV etc."
    }
   }
  ],
@@ -1779,12 +2357,14 @@
   {
    "id": "SP.POP.TOTL",
    "name": "Population, total",
-   "source": "World Bank WDI"
+   "source": "World Bank WDI (UN World Population Prospects, national statistical offices, Eurostat)",
+   "url": "https://data.worldbank.org/indicator/SP.POP.TOTL"
   },
   {
    "id": "UNDP_HDI",
    "name": "Human Development Index (UNDP)",
-   "source": "UNDP Human Development Report 2025"
+   "source": "UNDP Human Development Report 2025",
+   "url": "https://hdr.undp.org/data-center/human-development-index"
   }
  ]
 }

@@ -39,9 +39,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </header>
         <main className="mx-auto max-w-7xl px-4 py-6">{children}</main>
         <footer className="mx-auto max-w-7xl px-4 py-8 text-xs text-muted">
-          Data: World Bank World Development Indicators and Worldwide Governance Indicators, UNDP Human Development
-          Report 2025, V-Dem Institute (via Our World in Data). Scores are computed from these sources; where an
-          official number does not exist the page says so. See Methodology for every assumption.
+          Data:{" "}
+          <a href="https://data.worldbank.org/" className="underline" target="_blank" rel="noreferrer">
+            World Bank World Development Indicators
+          </a>
+          ,{" "}
+          <a href="https://www.govindicators.org/" className="underline" target="_blank" rel="noreferrer">
+            Worldwide Governance Indicators
+          </a>
+          ,{" "}
+          <a href="https://hdr.undp.org/data-center/documentation-and-downloads" className="underline" target="_blank" rel="noreferrer">
+            UNDP Human Development Report 2025
+          </a>
+          ,{" "}
+          <a href="https://v-dem.net/data/the-v-dem-dataset/" className="underline" target="_blank" rel="noreferrer">
+            V-Dem Institute
+          </a>{" "}
+          (via{" "}
+          <a href="https://ourworldindata.org/grapher/freedom-of-expression-index" className="underline" target="_blank" rel="noreferrer">
+            Our World in Data
+          </a>
+          ). Every indicator page links to the exact download URL and to each upstream source; where an official number does not exist the page says
+          so. See <Link href="/methodology" className="underline">Methodology</Link> for every assumption.
         </footer>
       </body>
     </html>

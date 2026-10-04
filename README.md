@@ -27,7 +27,25 @@ headline score to the official series behind every number.
 | UNDP Human Development Report 2025 | mean years of schooling; HDI (shown as a cross-check, not scored) |
 | V-Dem Institute v15 (via Our World in Data) | freedom of expression & alternative sources of information |
 
-The full catalogue (ids, direction, transform, carry limit, source URL, what each one measures) is in
+### Provenance and verification
+
+Every indicator carries three layers of provenance, all linked in the app (indicator page, country drill-down,
+methodology table):
+
+1. **Downloaded from** – the exact URL the pipeline fetched (e.g. `https://api.worldbank.org/v2/country/all/indicator/SP.DYN.LE00.IN?format=json&date=2000:2025&per_page=20000`,
+   the UNDP HDR CSV, the OWID grapher CSV), plus the series landing page and the World Bank metadata record.
+2. **Built from** – the chain of organisations behind the series, each tagged *produces the series*, *underlying data*
+   or *republishes unchanged*, with a sentence on what that source contributes when a value is assembled from several
+   (e.g. GNI per capita PPP: World Bank national accounts ← ICP PPPs for most economies, Eurostat–OECD PPPs for members,
+   OECD/IMF national accounts for GNI in local currency).
+3. **Source statement, verbatim** – the data provider's own source statement (`sourceOrganization` and `sourceNote`
+   from the World Bank indicator metadata; the HDR / V-Dem documentation text for the others).
+
+Every country row on an indicator page, and every indicator row on a country page, has a **verify** link to the series
+filtered to that country (World Bank page with `?locations=`, the raw API JSON for that country, the UNDP country page,
+or the OWID table) so individual numbers can be checked against the source.
+
+The full catalogue (ids, direction, transform, carry limit, sources, what each one measures) is in
 [`scripts/indicators.mjs`](scripts/indicators.mjs). Add a row there and re-run the pipeline to extend the index.
 
 ## Method in brief
@@ -54,7 +72,8 @@ The computed data is committed under `data/`, so the site builds without network
 ## Refreshing the data
 
 ```bash
-npm run data:fetch   # World Bank API + UNDP + OWID → data/raw/
+npm run data:fetch   # World Bank API + UNDP + OWID → data/raw/ (also stores each series' fetch URL and official source metadata)
+node scripts/fetch-worldbank.mjs --meta-only   # refresh only the World Bank source statements
 npm run data:build   # scores, components, index, ranks → data/summary.json, data/meta.json, data/countries/, data/indicators/
 # or both:
 npm run data:refresh

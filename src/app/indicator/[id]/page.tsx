@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { IndicatorRanking } from "@/components/IndicatorRanking";
 import { ComponentDot } from "@/components/ScoreBar";
+import { SourceList } from "@/components/SourceList";
 import { getIndicatorFile, getMeta, getSummary } from "@/lib/data";
 import { fmtRaw } from "@/lib/format";
 
@@ -52,16 +53,6 @@ export default async function IndicatorPage({ params }: { params: Promise<{ id: 
               {indicator.note}
             </div>
           )}
-          <div>
-            <div className="text-xs text-muted">Source</div>
-            <a href={indicator.sourceUrl} target="_blank" rel="noreferrer" className="underline">
-              {indicator.source}
-            </a>
-            <div className="text-xs text-muted">
-              Series ID {indicator.id}
-              {indicator.stats.sourceLastUpdated ? ` · source updated ${indicator.stats.sourceLastUpdated}` : ""} · fetched {indicator.stats.fetchedAt}
-            </div>
-          </div>
         </div>
         <div className="card p-4 space-y-2">
           <div>
@@ -85,6 +76,11 @@ export default async function IndicatorPage({ params }: { params: Promise<{ id: 
           </div>
         </div>
       </div>
+      <section className="card p-4">
+        <h2 className="font-medium mb-2">Where the numbers come from</h2>
+        <SourceList indicator={indicator} />
+        <p className="text-xs text-muted mt-2">Every country row below has a “verify” link to this series filtered to that country, so each value can be checked against the source.</p>
+      </section>
       <IndicatorRanking indicator={indicator} file={file} summary={summary} />
     </div>
   );

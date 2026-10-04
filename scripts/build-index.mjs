@@ -14,7 +14,7 @@
 //      available components (needs ≥ 5 of 7). Coverage is reported everywhere.
 import fs from "node:fs/promises";
 import path from "node:path";
-import { COMPONENTS, INDICATORS, CONTEXT_INDICATORS, YEAR_START } from "./indicators.mjs";
+import { COMPONENTS, INDICATORS, CONTEXT_INDICATORS, NON_WORLDBANK, PULLED_FROM, YEAR_START } from "./indicators.mjs";
 
 const RAW = path.resolve("data/raw");
 const OUT = path.resolve("data");
@@ -199,7 +199,26 @@ const meta = {
   minComponents: MIN_COMPONENTS,
   minCoverage: MIN_COVERAGE,
   components: COMPONENTS.map((c) => ({ ...c, indicators: compInds[c.id] })),
-  indicators: INDICATORS.map((i) => ({ ...i, goalposts: goalposts[i.id], stats: indStats[i.id] })),
+  indicators: INDICATORS.map((i) => ({
+    ...i,
+    goalposts: goalposts[i.id],
+    stats: indStats[i.id],
+    // exactly where our pipeline downloaded the series from
+    pulledFrom: NON_WORLDBANK.has(i.id)
+      ? { kind: "file", ...PULLED_FROM[i.id], metadataUrl: null }
+      : {
+          kind: "worldbank",
+          name: `World Bank API v2, series ${i.id}${raw[i.id].metadata?.database ? ` (${raw[i.id].metadata.database})` : ""}`,
+          url: raw[i.id].fetchUrl,
+          page: `https://data.worldbank.org/indicator/${i.id}`,
+          metadataUrl: raw[i.id].metadata?.metadataUrl ?? null,
+        },
+    // the publisher's own source statement, verbatim
+    official: {
+      sourceOrganization: raw[i.id].metadata?.sourceOrganization ?? null,
+      sourceNote: raw[i.id].metadata?.sourceNote ?? null,
+    },
+  })),
   context: CONTEXT_INDICATORS,
 };
 

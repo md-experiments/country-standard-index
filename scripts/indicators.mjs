@@ -4,6 +4,9 @@
 // direction: "higher" = higher raw value is better, "lower" = lower is better
 // transform: "log" applies ln(x) (or ln(x+1) for rates that can be 0) before goalposting
 // maxCarry: how many years a last observation may be carried forward to fill gaps
+// sources: the chain behind the number. role "compiler" = the organisation that produces the series we use,
+//   "primary" = the underlying data it is built from, "republisher" = passes it on unchanged. Each entry says
+//   how it contributes. The place we actually download from is recorded separately (pulledFrom in meta.json).
 // kind: "official" (direct measure) or "proxy" (stands in for something we cannot measure directly)
 // sourceType: "statistical" (counts/surveys by statistical agencies), "modelled" (statistical estimate
 //   filling gaps in reported data), "expert" (expert or survey-based assessment, e.g. governance indices)
@@ -90,8 +93,12 @@ export const INDICATORS = [
     maxCarry: 3,
     kind: "official",
     sourceType: "statistical",
-    source: "World Bank, World Development Indicators (national accounts, ICP)",
-    sourceUrl: "https://data.worldbank.org/indicator/NY.GNP.PCAP.PP.KD",
+    sources: [
+      {"name": "World Bank national accounts data (WDI)", "url": "https://data.worldbank.org/indicator/NY.GNP.PCAP.PP.KD", "role": "compiler", "contribution": "Divides each country's GNI by its population and converts it to constant 2021 international dollars using the PPPs below; fills gaps with World Bank staff estimates."},
+      {"name": "International Comparison Program (ICP), World Bank", "url": "https://www.worldbank.org/en/programs/icp/data", "role": "primary", "contribution": "Supplies the purchasing power parities (PPPs) used for the conversion for all non-OECD, non-EU economies."},
+      {"name": "Eurostat–OECD PPP Programme", "url": "https://data-explorer.oecd.org/", "role": "primary", "contribution": "Supplies the PPPs for EU and OECD member countries."},
+      {"name": "OECD National Accounts and IMF World Economic Outlook", "url": "https://www.imf.org/en/Publications/WEO/weo-database", "role": "primary", "contribution": "GNI in local currency comes from national accounts reported by national statistical offices to the OECD and IMF."},
+    ],
     measures: "Real income available per person, adjusted for what money actually buys locally.",
     note: "Log-transformed: an extra $1,000 matters far more to a poor country than a rich one (same convention as the UN Human Development Index).",
   },
@@ -105,8 +112,9 @@ export const INDICATORS = [
     maxCarry: 3,
     kind: "official",
     sourceType: "statistical",
-    source: "World Bank / International Comparison Program",
-    sourceUrl: "https://data.worldbank.org/indicator/PA.NUS.PRVT.PLI",
+    sources: [
+      {"name": "World Bank World Development Indicators / ICP", "url": "https://www.worldbank.org/en/programs/icp/data", "role": "compiler", "contribution": "The World Bank computes the index as the ICP purchasing power parity for household consumption divided by the market exchange rate, with the United States set to 100."},
+    ],
     measures: "How expensive everyday goods and services are compared with the United States.",
     note: "Cost-of-living measure. Rent is included in the ICP consumption basket, but no official cross-country housing-affordability series exists for all economies; see methodology for a proposed proxy.",
   },
@@ -120,8 +128,9 @@ export const INDICATORS = [
     maxCarry: 2,
     kind: "official",
     sourceType: "statistical",
-    source: "World Bank WDI from IMF International Financial Statistics / national statistical offices",
-    sourceUrl: "https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG",
+    sources: [
+      {"name": "IMF International Financial Statistics", "url": "https://data.imf.org/", "role": "compiler", "contribution": "Annual average consumer price index change; national statistical offices report the CPI to the IMF, which publishes it unchanged."},
+    ],
     measures: "Whether incomes keep their value from one year to the next.",
     note: "Negative inflation is treated as 0 (deflation is not rewarded). Scored on a capped scale so hyperinflation episodes do not dominate.",
   },
@@ -135,8 +144,11 @@ export const INDICATORS = [
     maxCarry: 8,
     kind: "official",
     sourceType: "statistical",
-    source: "World Bank Poverty and Inequality Platform (household surveys)",
-    sourceUrl: "https://data.worldbank.org/indicator/SI.POV.GINI",
+    sources: [
+      {"name": "World Bank Poverty and Inequality Platform (PIP)", "url": "https://pip.worldbank.org/", "role": "compiler", "contribution": "Computes the Gini from household survey microdata; one value per survey year."},
+      {"name": "Household surveys of national statistical agencies", "url": "https://pip.worldbank.org/country-profiles", "role": "primary", "contribution": "Income or consumption surveys, obtained through government statistical agencies and World Bank country departments; the PIP country profiles list the survey behind each value."},
+      {"name": "Luxembourg Income Study (LIS)", "url": "https://www.lisdatacenter.org/", "role": "primary", "contribution": "Source of the harmonised survey data for most high-income economies."},
+    ],
     measures: "Whether the average income is actually reached by the typical household.",
     note: "Survey based, so observed only every few years; last observation carried forward up to 8 years and flagged.",
   },
@@ -152,8 +164,11 @@ export const INDICATORS = [
     maxCarry: 3,
     kind: "official",
     sourceType: "statistical",
-    source: "World Bank WDI from UN World Population Prospects and national statistics",
-    sourceUrl: "https://data.worldbank.org/indicator/SP.DYN.LE00.IN",
+    sources: [
+      {"name": "UN World Population Prospects (UN Population Division)", "url": "https://population.un.org/wpp/", "role": "primary", "contribution": "Provides the life expectancy estimates for most countries."},
+      {"name": "National statistical offices", "url": "https://unstats.un.org/home/nso_sites/", "role": "primary", "contribution": "For some countries the World Bank derives the value from male and female life expectancy published by the national statistical office."},
+      {"name": "Eurostat demographic statistics", "url": "https://ec.europa.eu/eurostat/web/population-demography/demography-population-stock-balance/database", "role": "primary", "contribution": "Same derivation for EU member states, from Eurostat's life-expectancy tables."},
+    ],
     measures: "Overall health outcome.",
   },
   {
@@ -166,8 +181,9 @@ export const INDICATORS = [
     maxCarry: 5,
     kind: "official",
     sourceType: "statistical",
-    source: "World Health Organization (SDG 3.8.1), via World Bank WDI",
-    sourceUrl: "https://data.worldbank.org/indicator/SH_UHC_SCI",
+    sources: [
+      {"name": "WHO Global Health Observatory, UHC service coverage index (SDG 3.8.1)", "url": "https://www.who.int/data/gho/data/indicators/indicator-details/GHO/uhc-index-of-service-coverage", "role": "compiler", "contribution": "WHO computes the index from 14 tracer indicators; the World Bank republishes it unchanged."},
+    ],
     measures: "Coverage of essential health services (reproductive, infectious, non-communicable, capacity).",
     note: "Published every two to three years; carried forward and flagged in between.",
   },
@@ -181,8 +197,11 @@ export const INDICATORS = [
     maxCarry: 5,
     kind: "proxy",
     sourceType: "statistical",
-    source: "WHO Global Health Workforce Statistics, via World Bank WDI",
-    sourceUrl: "https://data.worldbank.org/indicator/SH.MED.PHYS.ZS",
+    sources: [
+      {"name": "WHO National Health Workforce Accounts (Global Health Workforce Statistics)", "url": "https://www.who.int/data/gho/data/themes/topics/health-workforce", "role": "primary", "contribution": "Physician counts reported by countries to WHO, the main source for most economies."},
+      {"name": "OECD Health Statistics", "url": "https://data-explorer.oecd.org/", "role": "primary", "contribution": "Physician counts for OECD member countries."},
+      {"name": "World Bank WDI", "url": "https://data.worldbank.org/indicator/SH.MED.PHYS.ZS", "role": "compiler", "contribution": "Combines the two sources with country-reported data and divides by population to give physicians per 1,000 people."},
+    ],
     measures: "Physical access to a doctor (proxy for waiting times and appointment availability, which are not measured consistently across countries).",
   },
   {
@@ -195,8 +214,9 @@ export const INDICATORS = [
     maxCarry: 3,
     kind: "proxy",
     sourceType: "statistical",
-    source: "WHO Global Health Expenditure Database, via World Bank WDI",
-    sourceUrl: "https://data.worldbank.org/indicator/SH.XPD.OOPC.CH.ZS",
+    sources: [
+      {"name": "WHO Global Health Expenditure Database", "url": "https://apps.who.int/nha/database", "role": "compiler", "contribution": "National health accounts compiled by WHO; out-of-pocket spending divided by current health expenditure."},
+    ],
     measures: "Financial access to care: how much of the health bill households pay themselves at the point of use.",
   },
   {
@@ -209,8 +229,9 @@ export const INDICATORS = [
     maxCarry: 3,
     kind: "official",
     sourceType: "modelled",
-    source: "UN Inter-agency Group for Child Mortality Estimation, via World Bank WDI",
-    sourceUrl: "https://data.worldbank.org/indicator/SP.DYN.IMRT.IN",
+    sources: [
+      {"name": "UN Inter-agency Group for Child Mortality Estimation (UNICEF, WHO, World Bank, UN Population Division)", "url": "https://childmortality.org/", "role": "compiler", "contribution": "A single joint estimate per country-year, modelled from vital registration, censuses and household surveys; the four agencies publish the same number."},
+    ],
     measures: "Effectiveness of the maternal and child health system.",
   },
 
@@ -225,8 +246,9 @@ export const INDICATORS = [
     maxCarry: 2,
     kind: "official",
     sourceType: "modelled",
-    source: "International Labour Organization, ILOSTAT (modelled estimates), via World Bank WDI",
-    sourceUrl: "https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS",
+    sources: [
+      {"name": "ILO modelled estimates (ILOEST), ILOSTAT", "url": "https://ilostat.ilo.org/data/", "role": "compiler", "contribution": "Labour force survey results reported by national statistical offices, harmonised and gap-filled by the ILO's estimation model."},
+    ],
     measures: "Job availability.",
   },
   {
@@ -239,8 +261,9 @@ export const INDICATORS = [
     maxCarry: 2,
     kind: "official",
     sourceType: "modelled",
-    source: "International Labour Organization, ILOSTAT (modelled estimates), via World Bank WDI",
-    sourceUrl: "https://data.worldbank.org/indicator/SL.UEM.1524.ZS",
+    sources: [
+      {"name": "ILO modelled estimates (ILOEST), ILOSTAT", "url": "https://ilostat.ilo.org/data/", "role": "compiler", "contribution": "Labour force survey results reported by national statistical offices, harmonised and gap-filled by the ILO's estimation model."},
+    ],
     measures: "Job availability for people entering the labour market.",
   },
   {
@@ -253,8 +276,9 @@ export const INDICATORS = [
     maxCarry: 2,
     kind: "official",
     sourceType: "modelled",
-    source: "International Labour Organization, ILOSTAT (modelled estimates), via World Bank WDI",
-    sourceUrl: "https://data.worldbank.org/indicator/SL.EMP.TOTL.SP.ZS",
+    sources: [
+      {"name": "ILO modelled estimates (ILOEST), ILOSTAT", "url": "https://ilostat.ilo.org/data/", "role": "compiler", "contribution": "Labour force survey results reported by national statistical offices, harmonised and gap-filled by the ILO's estimation model."},
+    ],
     measures: "How much of the adult population is actually in work (captures discouraged workers that the unemployment rate misses).",
   },
   {
@@ -267,8 +291,10 @@ export const INDICATORS = [
     maxCarry: 2,
     kind: "proxy",
     sourceType: "modelled",
-    source: "International Labour Organization, ILOSTAT (modelled estimates), via World Bank WDI",
-    sourceUrl: "https://data.worldbank.org/indicator/SL.EMP.VULN.ZS",
+    sources: [
+      {"name": "ILO modelled estimates (ILOEST), ILOSTAT", "url": "https://ilostat.ilo.org/data/", "role": "compiler", "contribution": "Status-in-employment data from labour force surveys, harmonised and gap-filled by the ILO's estimation model."},
+      {"name": "World Bank staff estimates", "url": "https://data.worldbank.org/indicator/SL.EMP.VULN.ZS", "role": "compiler", "contribution": "Sums own-account and contributing family workers as a share of total employment, with staff estimates where the ILO series is incomplete."},
+    ],
     measures: "Job quality: share of workers who are own-account or unpaid family workers, typically without contracts or social protection.",
   },
 
@@ -283,8 +309,9 @@ export const INDICATORS = [
     maxCarry: 8,
     kind: "official",
     sourceType: "statistical",
-    source: "UNESCO Institute for Statistics (censuses and household surveys), via World Bank WDI",
-    sourceUrl: "https://data.worldbank.org/indicator/SE.TER.CUAT.BA.ZS",
+    sources: [
+      {"name": "UNESCO Institute for Statistics (UIS) data browser", "url": "https://databrowser.uis.unesco.org/", "role": "compiler", "contribution": "UIS compiles attainment from national population censuses and household surveys; one value per census or survey year. The World Bank pulls it through the UIS API."},
+    ],
     measures: "Share of the adult population holding a university degree.",
     note: "The direct answer to 'how many people have a degree'. Observed only in census/survey years; carried forward up to 8 years and flagged. Where it is missing, tertiary enrolment serves as the proxy.",
   },
@@ -298,8 +325,9 @@ export const INDICATORS = [
     maxCarry: 8,
     kind: "official",
     sourceType: "statistical",
-    source: "UNESCO Institute for Statistics, via World Bank WDI",
-    sourceUrl: "https://data.worldbank.org/indicator/SE.SEC.CUAT.UP.ZS",
+    sources: [
+      {"name": "UNESCO Institute for Statistics (UIS) data browser", "url": "https://databrowser.uis.unesco.org/", "role": "compiler", "contribution": "UIS compiles attainment from national population censuses and household surveys; one value per census or survey year. The World Bank pulls it through the UIS API."},
+    ],
     measures: "Baseline education level of the adult population.",
   },
   {
@@ -312,8 +340,9 @@ export const INDICATORS = [
     maxCarry: 4,
     kind: "proxy",
     sourceType: "statistical",
-    source: "UNESCO Institute for Statistics, via World Bank WDI",
-    sourceUrl: "https://data.worldbank.org/indicator/SE.TER.ENRR",
+    sources: [
+      {"name": "UNESCO Institute for Statistics (UIS) data browser", "url": "https://databrowser.uis.unesco.org/", "role": "compiler", "contribution": "Enrolment counts reported by ministries of education to UIS, divided by UN population estimates for the relevant age group."},
+    ],
     measures: "Access to higher education today (leading indicator of future degree attainment).",
     note: "Gross ratios can exceed 100% because of mature and repeat students; capped at 100.",
   },
@@ -327,8 +356,11 @@ export const INDICATORS = [
     maxCarry: 10,
     kind: "official",
     sourceType: "statistical",
-    source: "World Bank Human Capital Project (harmonised test scores × expected years of school)",
-    sourceUrl: "https://data.worldbank.org/indicator/HD.HCI.LAYS",
+    sources: [
+      {"name": "World Bank Human Capital Project", "url": "https://www.worldbank.org/en/publication/human-capital", "role": "compiler", "contribution": "World Bank staff calculation: expected years of school multiplied by harmonised test score ÷ 625 (method in Filmer et al. 2018)."},
+      {"name": "UNESCO UIS enrolment data", "url": "https://databrowser.uis.unesco.org/", "role": "primary", "contribution": "Enrolment rates by age that give the expected years of school."},
+      {"name": "International student assessments (PISA, TIMSS, PIRLS, SACMEQ, PASEC, LLECE)", "url": "https://datacatalog.worldbank.org/search/dataset/0038001", "role": "primary", "contribution": "Test results harmonised onto one scale by the World Bank to give the learning adjustment."},
+    ],
     measures: "Quality of schooling: years of school adjusted for how much children actually learn.",
     note: "Published for 2010, 2017, 2018 and 2020 only; carried forward and flagged.",
   },
@@ -343,8 +375,13 @@ export const INDICATORS = [
     maxCarry: 3,
     kind: "official",
     sourceType: "statistical",
-    source: "UNDP Human Development Report 2025 (from UNESCO Institute for Statistics, Barro-Lee, ICF DHS, UNICEF MICS, OECD)",
-    sourceUrl: "https://hdr.undp.org/data-center/documentation-and-downloads",
+    sources: [
+      {"name": "UNDP Human Development Report 2025, composite indices time series", "url": "https://hdr.undp.org/data-center/documentation-and-downloads", "role": "compiler", "contribution": "UNDP assembles the annual series, taking UIS values where available and filling and interpolating from the survey sources below."},
+      {"name": "UNESCO Institute for Statistics", "url": "https://databrowser.uis.unesco.org/", "role": "primary", "contribution": "Main source: attainment distributions from censuses and surveys."},
+      {"name": "Barro-Lee Educational Attainment Dataset", "url": "https://barrolee.github.io/BarroLeeDataSet/", "role": "primary", "contribution": "Fills countries and years without UIS data."},
+      {"name": "ICF Demographic and Health Surveys (DHS) and UNICEF MICS", "url": "https://dhsprogram.com/data/", "role": "primary", "contribution": "Household surveys used for countries with no census-based attainment data."},
+      {"name": "OECD education statistics", "url": "https://data-explorer.oecd.org/", "role": "primary", "contribution": "Attainment for OECD members."},
+    ],
     measures: "Average education level of the adult population.",
     note: "Annual series from the HDR composite indices file; UNDP interpolates between survey years.",
   },
@@ -360,8 +397,9 @@ export const INDICATORS = [
     maxCarry: 4,
     kind: "official",
     sourceType: "statistical",
-    source: "UN Office on Drugs and Crime, via World Bank WDI",
-    sourceUrl: "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+    sources: [
+      {"name": "UNODC data portal, intentional homicide", "url": "https://dataunodc.un.org/dp-intentional-homicide-victims", "role": "compiler", "contribution": "Homicide counts reported by national police and criminal-justice systems to UNODC, divided by population."},
+    ],
     measures: "Personal safety from lethal violence (the one crime statistic comparable across countries).",
   },
   {
@@ -374,8 +412,9 @@ export const INDICATORS = [
     maxCarry: 2,
     kind: "official",
     sourceType: "expert",
-    source: "World Bank Worldwide Governance Indicators (Kaufmann & Kraay)",
-    sourceUrl: "https://www.worldbank.org/en/publication/worldwide-governance-indicators",
+    sources: [
+      {"name": "Worldwide Governance Indicators (World Bank), 2025 revision", "url": "https://www.govindicators.org/", "role": "compiler", "contribution": "Aggregates about 30 underlying data sources (household and firm surveys, NGO assessments, commercial risk raters, public-sector bodies) into one estimate per country-year with an unobserved-components model; the site shows which sources enter each country's estimate."},
+    ],
     measures: "Likelihood of political instability or politically motivated violence.",
     note: "Composite of expert and survey sources; the WGI publish a standard error for each estimate.",
   },
@@ -389,8 +428,9 @@ export const INDICATORS = [
     maxCarry: 2,
     kind: "official",
     sourceType: "expert",
-    source: "World Bank Worldwide Governance Indicators",
-    sourceUrl: "https://www.worldbank.org/en/publication/worldwide-governance-indicators",
+    sources: [
+      {"name": "Worldwide Governance Indicators (World Bank), 2025 revision", "url": "https://www.govindicators.org/", "role": "compiler", "contribution": "Aggregates about 30 underlying data sources (household and firm surveys, NGO assessments, commercial risk raters, public-sector bodies) into one estimate per country-year with an unobserved-components model; the site shows which sources enter each country's estimate."},
+    ],
     measures: "Confidence in contracts, property rights, the police and the courts.",
   },
 
@@ -405,8 +445,9 @@ export const INDICATORS = [
     maxCarry: 2,
     kind: "official",
     sourceType: "expert",
-    source: "World Bank Worldwide Governance Indicators",
-    sourceUrl: "https://www.worldbank.org/en/publication/worldwide-governance-indicators",
+    sources: [
+      {"name": "Worldwide Governance Indicators (World Bank), 2025 revision", "url": "https://www.govindicators.org/", "role": "compiler", "contribution": "Aggregates about 30 underlying data sources (household and firm surveys, NGO assessments, commercial risk raters, public-sector bodies) into one estimate per country-year with an unobserved-components model; the site shows which sources enter each country's estimate."},
+    ],
     measures: "Freedom of expression, freedom of association, free media, and the ability to choose one's government.",
   },
   {
@@ -419,8 +460,9 @@ export const INDICATORS = [
     maxCarry: 2,
     kind: "official",
     sourceType: "expert",
-    source: "World Bank Worldwide Governance Indicators",
-    sourceUrl: "https://www.worldbank.org/en/publication/worldwide-governance-indicators",
+    sources: [
+      {"name": "Worldwide Governance Indicators (World Bank), 2025 revision", "url": "https://www.govindicators.org/", "role": "compiler", "contribution": "Aggregates about 30 underlying data sources (household and firm surveys, NGO assessments, commercial risk raters, public-sector bodies) into one estimate per country-year with an unobserved-components model; the site shows which sources enter each country's estimate."},
+    ],
     measures: "Whether public power is exercised for private gain.",
   },
 
@@ -434,8 +476,10 @@ export const INDICATORS = [
     maxCarry: 2,
     kind: "official",
     sourceType: "expert",
-    source: "V-Dem Institute (University of Gothenburg), Varieties of Democracy v15, via Our World in Data",
-    sourceUrl: "https://ourworldindata.org/grapher/freedom-of-expression-index",
+    sources: [
+      {"name": "V-Dem Institute, Varieties of Democracy dataset v15 (index v2x_freexp_altinf)", "url": "https://v-dem.net/data/the-v-dem-dataset/", "role": "compiler", "contribution": "Expert-coded: country experts answer questions on media censorship, harassment of journalists, and freedom of academic, cultural and political discussion; a Bayesian measurement model combines them into one 0–1 index."},
+      {"name": "Our World in Data grapher export", "url": "https://ourworldindata.org/grapher/freedom-of-expression-index", "role": "republisher", "contribution": "Republishes the V-Dem series unchanged with ISO country codes; we download its CSV."},
+    ],
     measures: "Press and media freedom, freedom of academic and cultural expression, and freedom of ordinary people to discuss politics.",
     note: "Expert-coded, not a government statistic. It is the most widely used freedom-of-expression series with full annual coverage; the WGI Voice & Accountability estimate serves as the second opinion.",
   },
@@ -451,8 +495,9 @@ export const INDICATORS = [
     maxCarry: 4,
     kind: "official",
     sourceType: "modelled",
-    source: "Global Burden of Disease / WHO, via World Bank WDI",
-    sourceUrl: "https://data.worldbank.org/indicator/EN.ATM.PM25.MC.M3",
+    sources: [
+      {"name": "IHME Global Burden of Disease 2023, air pollution exposure estimates", "url": "https://ghdx.healthdata.org/record/ihme-data/gbd-2023-air-pollution-exposure-estimates-1990-2023", "role": "compiler", "contribution": "Population-weighted PM2.5 modelled from satellite retrievals, chemical-transport models and ground monitors; the World Bank republishes it (an account is needed to download from IHME directly)."},
+    ],
     measures: "Air quality where people actually live.",
   },
   {
@@ -465,8 +510,9 @@ export const INDICATORS = [
     maxCarry: 3,
     kind: "official",
     sourceType: "statistical",
-    source: "WHO/UNICEF Joint Monitoring Programme, via World Bank WDI",
-    sourceUrl: "https://data.worldbank.org/indicator/SH.H2O.SMDW.ZS",
+    sources: [
+      {"name": "WHO/UNICEF Joint Monitoring Programme (JMP) for Water Supply, Sanitation and Hygiene", "url": "https://washdata.org/data", "role": "compiler", "contribution": "Estimated by the joint programme from household surveys, censuses and administrative data on water quality and availability."},
+    ],
     measures: "Basic infrastructure: water that is on premises, available when needed and free of contamination.",
   },
   {
@@ -479,8 +525,9 @@ export const INDICATORS = [
     maxCarry: 3,
     kind: "official",
     sourceType: "statistical",
-    source: "World Bank Sustainable Energy for All, via WDI",
-    sourceUrl: "https://data.worldbank.org/indicator/EG.ELC.ACCS.ZS",
+    sources: [
+      {"name": "World Bank / ESMAP Tracking SDG 7 electrification dataset", "url": "https://trackingsdg7.esmap.org/downloads", "role": "compiler", "contribution": "Household surveys and censuses, with a model filling years between surveys."},
+    ],
     measures: "Basic infrastructure.",
   },
   {
@@ -493,17 +540,38 @@ export const INDICATORS = [
     maxCarry: 3,
     kind: "proxy",
     sourceType: "statistical",
-    source: "International Telecommunication Union, via World Bank WDI",
-    sourceUrl: "https://data.worldbank.org/indicator/IT.NET.USER.ZS",
+    sources: [
+      {"name": "ITU World Telecommunication/ICT Indicators Database", "url": "https://datahub.itu.int/", "role": "compiler", "contribution": "Household ICT surveys and data from national regulators reported to the ITU, with ITU estimates for missing years."},
+    ],
     measures: "Connectivity and access to information.",
   },
 ];
 
 // Context series fetched but not scored
 export const CONTEXT_INDICATORS = [
-  { id: "SP.POP.TOTL", name: "Population, total", source: "World Bank WDI" },
-  { id: "UNDP_HDI", name: "Human Development Index (UNDP)", source: "UNDP Human Development Report 2025" },
+  { id: "SP.POP.TOTL", name: "Population, total", source: "World Bank WDI (UN World Population Prospects, national statistical offices, Eurostat)", url: "https://data.worldbank.org/indicator/SP.POP.TOTL" },
+  { id: "UNDP_HDI", name: "Human Development Index (UNDP)", source: "UNDP Human Development Report 2025", url: "https://hdr.undp.org/data-center/human-development-index" },
 ];
+
+// Where each non-World-Bank series is downloaded from (World Bank series are pulled from the API endpoint
+// https://api.worldbank.org/v2/country/all/indicator/{id}; see fetch-worldbank.mjs).
+export const PULLED_FROM = {
+  UNDP_MYS: {
+    name: "UNDP HDR 2025 composite indices time series (CSV), column mys_YYYY",
+    url: "https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv",
+    page: "https://hdr.undp.org/data-center/documentation-and-downloads",
+  },
+  UNDP_HDI: {
+    name: "UNDP HDR 2025 composite indices time series (CSV), column hdi_YYYY",
+    url: "https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv",
+    page: "https://hdr.undp.org/data-center/documentation-and-downloads",
+  },
+  VDEM_FREEXPR: {
+    name: "Our World in Data grapher CSV, column freeexpr_vdem__estimate_best",
+    url: "https://ourworldindata.org/grapher/freedom-of-expression-index.csv?v=1&csvType=full&useColumnShortNames=true",
+    page: "https://ourworldindata.org/grapher/freedom-of-expression-index",
+  },
+};
 
 // Indicators that are not fetched from the World Bank API
 export const NON_WORLDBANK = new Set(["UNDP_MYS", "VDEM_FREEXPR", "UNDP_HDI"]);
