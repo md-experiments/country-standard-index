@@ -7,6 +7,7 @@ import { fmt1, fmtRaw } from "@/lib/format";
 import { contributions, defaultWeights } from "@/lib/index-math";
 import { countrySourceLinks } from "@/lib/links";
 import { SourceList } from "@/components/SourceList";
+import { ScoreExplainer } from "@/components/ScoreExplainer";
 import type { CountryDetail, Meta, Summary } from "@/lib/types";
 
 export function CountryDrilldown({ country, meta, worldMedian }: { country: CountryDetail; meta: Meta; worldMedian: Summary["worldMedian"] }) {
@@ -148,11 +149,19 @@ export function CountryDrilldown({ country, meta, worldMedian }: { country: Coun
                                     <div className="text-xs text-secondary mb-2 space-y-2">
                                       <div>
                                         <strong className="text-primary">Measures:</strong> {ind.measures}
-                                        {ind.note ? <> · {ind.note}</> : null} · Goalposts: {fmtRaw(ind.goalposts.worst)} → {fmtRaw(ind.goalposts.best)} {ind.unit} ·{" "}
+                                        {ind.note ? <> · {ind.note}</> : null} ·{" "}
                                         <Link href={`/indicator/${ind.id}`} className="underline">
                                           compare countries
                                         </Link>
                                       </div>
+                                      <details className="border hairline rounded p-2" open>
+                                        <summary className="cursor-pointer text-primary font-medium">
+                                          How {raw == null ? "a value" : fmtRaw(raw)} becomes a score of {sc == null ? "–" : Math.round(sc)}
+                                        </summary>
+                                        <div className="mt-1">
+                                          <ScoreExplainer indicator={ind} raw={raw} obsYear={obs} compact />
+                                        </div>
+                                      </details>
                                       <div>
                                         <strong className="text-primary">Verify this number for {country.name}:</strong>{" "}
                                         {countrySourceLinks(ind, country).map((l, i) => (

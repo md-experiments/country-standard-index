@@ -3,6 +3,7 @@ import { ComponentDot } from "@/components/ScoreBar";
 import { getMeta } from "@/lib/data";
 import { fmtRaw } from "@/lib/format";
 import { ROLE_LABEL } from "@/lib/links";
+import { transformFormula } from "@/lib/scoring.mjs";
 
 export const metadata = { title: "Methodology · Country Standard Index" };
 
@@ -120,6 +121,12 @@ export default function MethodologyPage() {
             is better.
           </li>
         </ol>
+        <p>
+          Every indicator page spells these steps out for that series (native scale, transform, goalposts in both raw and transformed units, flip,
+          clipping), and every value on a country page or indicator table can be opened to show the arithmetic applied to that exact number. The
+          build is checked by <code>npm run data:verify</code>, which recomputes all {"~124,000"} stored scores from the raw values and the published
+          goalposts and confirms each indicator is monotone in the stated direction.
+        </p>
       </section>
 
       <section className="space-y-2 text-sm">
@@ -162,7 +169,7 @@ export default function MethodologyPage() {
                 <th>Indicator</th>
                 <th>Component</th>
                 <th>Type</th>
-                <th>Better</th>
+                <th>Native scale → score</th>
                 <th>Goalposts (0 → 100)</th>
                 <th>Countries</th>
                 <th>Carried</th>
@@ -188,7 +195,12 @@ export default function MethodologyPage() {
                   <td className="whitespace-nowrap">
                     <span className={`badge ${i.kind === "proxy" ? "badge-proxy" : ""}`}>{i.kind}</span> <span className="badge">{i.sourceType}</span>
                   </td>
-                  <td>{i.direction}</td>
+                  <td className="text-xs" style={{ minWidth: 200 }}>
+                    <div>{i.nativeScale}</div>
+                    <div className="text-muted">
+                      {transformFormula(i.transform)}; {i.direction === "lower" ? "lower is better → flipped" : "higher is better"}
+                    </div>
+                  </td>
                   <td className="tnum whitespace-nowrap">
                     {fmtRaw(i.goalposts.worst)} → {fmtRaw(i.goalposts.best)}
                   </td>

@@ -4,12 +4,14 @@ import { useMemo, useState } from "react";
 import { MultiCountryHistory } from "@/components/MultiCountryHistory";
 import { fmtRaw } from "@/lib/format";
 import { countrySourceLinks } from "@/lib/links";
+import { ScoreExplainer } from "@/components/ScoreExplainer";
 import type { Indicator, IndicatorFile, Summary } from "@/lib/types";
 
 export function IndicatorRanking({ indicator, file, summary }: { indicator: Indicator; file: IndicatorFile; summary: Summary }) {
   const years = summary.years;
   const [year, setYear] = useState(summary.rankingYear);
   const [mode, setMode] = useState<"raw" | "score">("raw");
+  const [openRow, setOpenRow] = useState<string | null>(null);
   const yi = years.indexOf(year);
   const nameOf = useMemo(() => Object.fromEntries(summary.countries.map((c) => [c.iso3, c])), [summary]);
   const rows = useMemo(
@@ -82,7 +84,8 @@ export function IndicatorRanking({ indicator, file, summary }: { indicator: Indi
             </thead>
             <tbody>
               {rows.map((r, i) => (
-                <tr key={r.iso}>
+                <Row key={r.iso} open={openRow === r.iso}>
+                <tr className="cursor-pointer" onClick={() => setOpenRow((o) => (o === r.iso ? null : r.iso))} title="Click to see how this value becomes the score">
                   <td className="text-muted">{i + 1}</td>
                   <td>
                     <Link href={`/country/${r.iso}`} className="font-medium hover:underline">
@@ -94,12 +97,21 @@ export function IndicatorRanking({ indicator, file, summary }: { indicator: Indi
                   <td className="font-semibold">{Math.round(r.score)}</td>
                   <td className="text-xs">
                     {nameOf[r.iso] && (
-                      <a href={countrySourceLinks(indicator, nameOf[r.iso])[0].url} target="_blank" rel="noreferrer" className="underline text-secondary" title={countrySourceLinks(indicator, nameOf[r.iso])[0].label}>
+                      <a href={countrySourceLinks(indicator, nameOf[r.iso])[0].url} target="_blank" rel="noreferrer" className="underline text-secondary" title={countrySourceLinks(indicator, nameOf[r.iso])[0].label} onClick={(e) => e.stopPropagation()}>
                         source ↗
                       </a>
                     )}
                   </td>
                 </tr>
+                {openRow === r.iso && (
+                  <tr>
+                    <td></td>
+                    <td colSpan={5} className="pb-3">
+                      <ScoreExplainer indicator={indicator} raw={r.raw} obsYear={r.obs} compact />
+                    </td>
+                  </tr>
+                )}
+                </Row>
               ))}
             </tbody>
           </table>
@@ -113,4 +125,8 @@ export function IndicatorRanking({ indicator, file, summary }: { indicator: Indi
       </section>
     </div>
   );
+}
+
+function Row({ children }: { children: React.ReactNode; open: boolean }) {
+  return <>{children}</>;
 }

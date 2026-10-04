@@ -58,6 +58,12 @@ The full catalogue (ids, direction, transform, carry limit, sources, what each o
 5. **Aggregation:** component = mean of available indicator scores; index = weighted mean of available components
    (≥ 5 of 7 required). Countries need ≥ 70 % indicator coverage to be ranked.
 
+Every indicator page spells these steps out for that series (native scale, transform, goalposts in raw and transformed
+units, flip, clipping), and every value on a country page or indicator table can be opened to show the arithmetic applied
+to that exact number. The scoring function lives in one file, `src/lib/scoring.mjs`, used by both the build and the UI;
+`npm run data:verify` recomputes all ~124,000 stored scores from the raw values and the published goalposts and checks
+each indicator is monotone in the stated direction.
+
 Full details, every goalpost and coverage statistic, and the proxy proposals are on the Methodology page of the app.
 
 ## Running locally

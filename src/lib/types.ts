@@ -38,6 +38,7 @@ export interface Indicator {
   component: string;
   name: string;
   unit: string;
+  nativeScale: string;
   direction: Direction;
   transform: string | null;
   maxCarry: number;
