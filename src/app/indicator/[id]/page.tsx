@@ -2,8 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { IndicatorRanking } from "@/components/IndicatorRanking";
 import { ComponentDot } from "@/components/ScoreBar";
+import { SourceList } from "@/components/SourceList";
+import { ScoreExplainer } from "@/components/ScoreExplainer";
 import { getIndicatorFile, getMeta, getSummary } from "@/lib/data";
-import { fmtRaw } from "@/lib/format";
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -24,8 +25,6 @@ export default async function IndicatorPage({ params }: { params: Promise<{ id: 
   const component = meta.components.find((c) => c.id === indicator.component)!;
   const summary = getSummary();
   const g = indicator.goalposts;
-  const transformText =
-    indicator.transform === "log" ? "natural log of the value" : indicator.transform === "log1p" ? "ln(1 + value)" : indicator.transform === "clamp0" ? "value, with negatives set to 0" : indicator.transform === "cap100" ? "value, capped at 100" : "value";
   return (
     <div className="space-y-6">
       <div>
@@ -52,39 +51,22 @@ export default async function IndicatorPage({ params }: { params: Promise<{ id: 
               {indicator.note}
             </div>
           )}
-          <div>
-            <div className="text-xs text-muted">Source</div>
-            <a href={indicator.sourceUrl} target="_blank" rel="noreferrer" className="underline">
-              {indicator.source}
-            </a>
-            <div className="text-xs text-muted">
-              Series ID {indicator.id}
-              {indicator.stats.sourceLastUpdated ? ` · source updated ${indicator.stats.sourceLastUpdated}` : ""} · fetched {indicator.stats.fetchedAt}
-            </div>
-          </div>
         </div>
         <div className="card p-4 space-y-2">
-          <div>
-            <div className="text-xs text-muted">Scoring</div>
-            Score = 100 × ({transformText} − worst goalpost) ÷ (best − worst), clipped to 0–100. Goalposts are the 2.5th and 97.5th percentiles of all{" "}
-            {g.pooledObservations.toLocaleString("en-US")} observed country-years since {meta.years[0]}, so they stay fixed over time.
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <div className="text-xs text-muted">Worst goalpost (score 0)</div>
-              <div className="font-semibold tnum">{fmtRaw(g.worst)}</div>
-            </div>
-            <div>
-              <div className="text-xs text-muted">Best goalpost (score 100)</div>
-              <div className="font-semibold tnum">{fmtRaw(g.best)}</div>
-            </div>
-          </div>
+          <div className="text-xs text-muted">From published value to score</div>
+          <ScoreExplainer indicator={indicator} />
           <div className="text-xs text-muted">
-            Coverage: {indicator.stats.countriesWithData} countries · {indicator.stats.observedCountryYears.toLocaleString("en-US")} observed country-years ·{" "}
-            {indicator.stats.carriedCountryYears.toLocaleString("en-US")} carried forward (max {indicator.maxCarry} years) · last year with ≥100 countries observed: {indicator.stats.latestYearWithBroadCoverage}
+            Goalposts come from {g.pooledObservations.toLocaleString("en-US")} observed country-years since {meta.years[0]}. Coverage: {indicator.stats.countriesWithData} countries ·{" "}
+            {indicator.stats.observedCountryYears.toLocaleString("en-US")} observed country-years · {indicator.stats.carriedCountryYears.toLocaleString("en-US")} carried forward (max {indicator.maxCarry} years) · last year with ≥100 countries observed:{" "}
+            {indicator.stats.latestYearWithBroadCoverage}. Open any country row below to see this calculation applied to its value.
           </div>
         </div>
       </div>
+      <section className="card p-4">
+        <h2 className="font-medium mb-2">Where the numbers come from</h2>
+        <SourceList indicator={indicator} />
+        <p className="text-xs text-muted mt-2">Every country row below has a “verify” link to this series filtered to that country, so each value can be checked against the source.</p>
+      </section>
       <IndicatorRanking indicator={indicator} file={file} summary={summary} />
     </div>
   );

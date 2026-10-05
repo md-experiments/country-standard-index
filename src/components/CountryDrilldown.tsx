@@ -5,6 +5,9 @@ import { ComponentDot, ScoreBar } from "@/components/ScoreBar";
 import { TimeSeriesChart } from "@/components/TimeSeriesChart";
 import { fmt1, fmtRaw } from "@/lib/format";
 import { contributions, defaultWeights } from "@/lib/index-math";
+import { countrySourceLinks } from "@/lib/links";
+import { SourceList } from "@/components/SourceList";
+import { ScoreExplainer } from "@/components/ScoreExplainer";
 import type { CountryDetail, Meta, Summary } from "@/lib/types";
 
 export function CountryDrilldown({ country, meta, worldMedian }: { country: CountryDetail; meta: Meta; worldMedian: Summary["worldMedian"] }) {
@@ -143,19 +146,34 @@ export function CountryDrilldown({ country, meta, worldMedian }: { country: Coun
                                 <tr>
                                   <td></td>
                                   <td colSpan={5} className="pb-4">
-                                    <div className="text-xs text-secondary mb-2">
-                                      <strong className="text-primary">Measures:</strong> {ind.measures}
-                                      {ind.note ? <> · {ind.note}</> : null}
-                                      <br />
-                                      <strong className="text-primary">Source:</strong>{" "}
-                                      <a href={ind.sourceUrl} target="_blank" rel="noreferrer" className="underline">
-                                        {ind.source}
-                                      </a>
-                                      {ind.stats.sourceLastUpdated ? ` (updated ${ind.stats.sourceLastUpdated})` : ""} · Goalposts: {fmtRaw(ind.goalposts.worst)} → {fmtRaw(ind.goalposts.best)}{" "}
-                                      {ind.unit} ·{" "}
-                                      <Link href={`/indicator/${ind.id}`} className="underline">
-                                        compare countries
-                                      </Link>
+                                    <div className="text-xs text-secondary mb-2 space-y-2">
+                                      <div>
+                                        <strong className="text-primary">Measures:</strong> {ind.measures}
+                                        {ind.note ? <> · {ind.note}</> : null} ·{" "}
+                                        <Link href={`/indicator/${ind.id}`} className="underline">
+                                          compare countries
+                                        </Link>
+                                      </div>
+                                      <details className="border hairline rounded p-2" open>
+                                        <summary className="cursor-pointer text-primary font-medium">
+                                          How {raw == null ? "a value" : fmtRaw(raw)} becomes a score of {sc == null ? "–" : Math.round(sc)}
+                                        </summary>
+                                        <div className="mt-1">
+                                          <ScoreExplainer indicator={ind} raw={raw} obsYear={obs} compact />
+                                        </div>
+                                      </details>
+                                      <div>
+                                        <strong className="text-primary">Verify this number for {country.name}:</strong>{" "}
+                                        {countrySourceLinks(ind, country).map((l, i) => (
+                                          <span key={l.url}>
+                                            {i > 0 ? " · " : ""}
+                                            <a href={l.url} target="_blank" rel="noreferrer" className="underline">
+                                              {l.label} ↗
+                                            </a>
+                                          </span>
+                                        ))}
+                                      </div>
+                                      <SourceList indicator={ind} compact />
                                     </div>
                                     <div className="flex gap-2 mb-1 text-xs">
                                       {(["raw", "score"] as const).map((k) => (

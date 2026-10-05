@@ -14,7 +14,8 @@
 //      available components (needs ≥ 5 of 7). Coverage is reported everywhere.
 import fs from "node:fs/promises";
 import path from "node:path";
-import { COMPONENTS, INDICATORS, CONTEXT_INDICATORS, YEAR_START } from "./indicators.mjs";
+import { COMPONENTS, INDICATORS, CONTEXT_INDICATORS, NON_WORLDBANK, PULLED_FROM, YEAR_START } from "./indicators.mjs";
+import { transform, untransform, score as scoreValue } from "../src/lib/scoring.mjs";
 
 const RAW = path.resolve("data/raw");
 const OUT = path.resolve("data");
@@ -33,22 +34,6 @@ for (const ind of [...INDICATORS, ...CONTEXT_INDICATORS]) {
   raw[ind.id] = JSON.parse(await fs.readFile(path.join(RAW, `${ind.id}.json`), "utf8"));
 }
 
-const transform = (t, v) => {
-  switch (t) {
-    case "log": return v > 0 ? Math.log(v) : null;
-    case "log1p": return v >= 0 ? Math.log1p(v) : null;
-    case "clamp0": return Math.max(0, v);
-    case "cap100": return Math.min(100, v);
-    default: return v;
-  }
-};
-const untransform = (t, v) => {
-  switch (t) {
-    case "log": return Math.exp(v);
-    case "log1p": return Math.expm1(v);
-    default: return v;
-  }
-};
 const percentile = (sorted, p) => {
   const i = (sorted.length - 1) * p;
   const lo = Math.floor(i), hi = Math.ceil(i);
@@ -88,11 +73,8 @@ for (const ind of INDICATORS) {
       if (s[y] != null) { last = { v: s[y], y }; observed++; obsCountByYear[y]++; }
       else if (last && y - last.y > ind.maxCarry) last = null;
       if (!last) return null;
-      const t = transform(ind.transform, last.v);
-      if (t == null || !Number.isFinite(t)) return null;
-      let sc = (t - lo) / (hi - lo);
-      if (ind.direction === "lower") sc = 1 - sc;
-      sc = Math.min(1, Math.max(0, sc)) * 100;
+      const sc = scoreValue(ind, { lowT: lo, highT: hi }, last.v);
+      if (sc == null) return null;
       if (last.y !== y) carried++;
       return { raw: last.v, obsYear: last.y, score: sc };
     });
@@ -199,7 +181,26 @@ const meta = {
   minComponents: MIN_COMPONENTS,
   minCoverage: MIN_COVERAGE,
   components: COMPONENTS.map((c) => ({ ...c, indicators: compInds[c.id] })),
-  indicators: INDICATORS.map((i) => ({ ...i, goalposts: goalposts[i.id], stats: indStats[i.id] })),
+  indicators: INDICATORS.map((i) => ({
+    ...i,
+    goalposts: goalposts[i.id],
+    stats: indStats[i.id],
+    // exactly where our pipeline downloaded the series from
+    pulledFrom: NON_WORLDBANK.has(i.id)
+      ? { kind: "file", ...PULLED_FROM[i.id], metadataUrl: null }
+      : {
+          kind: "worldbank",
+          name: `World Bank API v2, series ${i.id}${raw[i.id].metadata?.database ? ` (${raw[i.id].metadata.database})` : ""}`,
+          url: raw[i.id].fetchUrl,
+          page: `https://data.worldbank.org/indicator/${i.id}`,
+          metadataUrl: raw[i.id].metadata?.metadataUrl ?? null,
+        },
+    // the publisher's own source statement, verbatim
+    official: {
+      sourceOrganization: raw[i.id].metadata?.sourceOrganization ?? null,
+      sourceNote: raw[i.id].metadata?.sourceNote ?? null,
+    },
+  })),
   context: CONTEXT_INDICATORS,
 };
 

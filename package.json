@@ -9,7 +9,8 @@
     "lint": "eslint",
     "data:fetch": "node scripts/fetch-worldbank.mjs && node scripts/fetch-supplementary.mjs",
     "data:build": "node scripts/build-index.mjs",
-    "data:refresh": "npm run data:fetch && npm run data:build"
+    "data:refresh": "npm run data:fetch && npm run data:build && npm run data:verify",
+    "data:verify": "node scripts/verify-scores.mjs"
   },
   "dependencies": {
     "next": "16.3.8",
